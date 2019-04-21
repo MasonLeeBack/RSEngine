@@ -12,15 +12,10 @@ File name: EdInstanceView.cpp
 namespace rs {
     namespace Editor {
         void IterateInstances(std::shared_ptr<Instance> ins) {
-            std::vector<std::shared_ptr<Instance>> kids = ins->GetChildren();
-
-            if (kids.size() != 0) {
-                for (std::vector<std::shared_ptr<Instance>>::size_type i = 0; i != kids.size(); i++) {
-                    std::shared_ptr<Instance> kid = kids[i];
-                    if (ImGui::TreeNode((kid->Name + " (" + kid->ClassName + ")").c_str())) {
-                        IterateInstances(kid);
-                        ImGui::TreePop();
-                    }
+            for (auto kid : ins->GetChildren()) {
+                if (ImGui::TreeNode((kid->GetName() + " (" + kid->ClassName + ")").c_str())) {
+                    IterateInstances(kid);
+                    ImGui::TreePop();
                 }
             }
         }
