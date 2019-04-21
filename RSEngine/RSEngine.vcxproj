@@ -152,6 +152,7 @@
     <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\GameLib.cpp" />
     <ClCompile Include="Editor\EdAssetExplorer.cpp" />
+    <ClCompile Include="Editor\EdConfiguration-Orbital.cpp" />
     <ClCompile Include="Editor\EdConsole.cpp" />
     <ClCompile Include="Editor\EdInstanceView.cpp" />
     <ClCompile Include="Editor\Editor.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Include\Core\Engine.h" />
     <ClInclude Include="Include\Core\GameLib.h" />
     <ClInclude Include="Include\Editor\EdAssetExplorer.h" />
+    <ClInclude Include="Include\Editor\EdConfiguration-Orbital.h" />
     <ClInclude Include="Include\Editor\EdConsole.h" />
     <ClInclude Include="Include\Editor\EdInstanceView.h" />
     <ClInclude Include="Include\Editor\Editor.h" />
