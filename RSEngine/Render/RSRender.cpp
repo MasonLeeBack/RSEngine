@@ -30,18 +30,6 @@ File name: RSRender.cpp
 using namespace DirectX;
 
 namespace rs {
-    typedef struct D3DXCOLOR {
-        FLOAT r;
-        FLOAT g;
-        FLOAT b;
-        FLOAT a;
-    } D3DXCOLOR, *LPD3DXCOLOR;
-
-    struct VERTEX {
-        FLOAT X, Y, Z;      // position
-        D3DXCOLOR Color;
-    };
-
     IDXGISwapChain*             pdx_SwapChain;
     ID3D11Device*               pdx_Device;
     ID3D11DeviceContext*        pdx_DeviceContext;
@@ -315,7 +303,7 @@ namespace rs {
                 pdx_DeviceContext->IASetInputLayout(pipeline->InputLayout);
 
             pdx_DeviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-            UINT stride = sizeof(VERTEX);
+            UINT stride = sizeof(MeshData::vertex);
             UINT offset = 0;
             pdx_DeviceContext->IASetVertexBuffers(0, 1, &pipeline->VertexBuffer, &stride, &offset);
 
