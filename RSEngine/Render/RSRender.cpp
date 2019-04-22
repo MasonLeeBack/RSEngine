@@ -42,16 +42,81 @@ namespace rs {
     ID3D11DepthStencilView*     pdx_DepthStencilView;
     ID3D11Texture2D*            pdx_DepthStencilBuffer;
 
+    ID3D11Texture2D*            pdx_EditorViewportTexture;
+    ID3D11RenderTargetView*     pdx_EditorRenderTargetView;
+    ID3D11ShaderResourceView*   pdx_EditorViewportSRV;
+
     Render*                     g_Renderer;
 
     objCB                       constantBuffer;
 
     cameraMatrix                g_cameraMatrix;
 
+    bool                        dx_renderToEditor;
+
+    float                       fCurrentRenderX = 0.0f;
+    float                       fCurrentRenderY = 0.0f;
+
     std::vector<RenderPipeline*> pipelines;
+    
+    //
+    // This function is extracted from Render::Initialize because
+    // it can be called multiple times.
+    //
+    bool InitializeEditorViewport(float resX, float resY) {
+
+        if (pdx_EditorViewportSRV)
+            pdx_EditorViewportSRV->Release();
+
+        if (pdx_EditorRenderTargetView)
+            pdx_EditorRenderTargetView->Release();
+
+        if (pdx_EditorViewportTexture)
+            pdx_EditorViewportTexture->Release();
+
+        D3D11_TEXTURE2D_DESC textureDesc;
+
+        ZeroMemory(&textureDesc, sizeof(textureDesc));
+
+        textureDesc.Width = resX;
+        textureDesc.Height = resY;
+        textureDesc.MipLevels = 1;
+        textureDesc.ArraySize = 1;
+        textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        textureDesc.SampleDesc.Count = 1;
+        textureDesc.Usage = D3D11_USAGE_DEFAULT;
+        textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+        textureDesc.CPUAccessFlags = 0;
+        textureDesc.MiscFlags = 0;
+
+        pdx_Device->CreateTexture2D(&textureDesc, NULL, &pdx_EditorViewportTexture);
+
+        D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+
+        renderTargetViewDesc.Format = textureDesc.Format;
+        renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+        renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+        pdx_Device->CreateRenderTargetView(pdx_EditorViewportTexture, &renderTargetViewDesc, &pdx_EditorRenderTargetView);
+
+        D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+
+        shaderResourceViewDesc.Format = textureDesc.Format;
+        shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+        shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+        shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+        pdx_Device->CreateShaderResourceView(pdx_EditorViewportTexture, &shaderResourceViewDesc, &pdx_EditorViewportSRV);
+
+        return true;
+    }
 
     bool Render::Initialize() {
         HRESULT hr;
+
+        // Set current resolution
+        fCurrentRenderX = static_cast<float>(g_resX);
+        fCurrentRenderY = static_cast<float>(g_resY);
 
         // Enumerate available DX11 adapters
         IDXGIFactory* pFactory = NULL;
@@ -74,8 +139,8 @@ namespace rs {
         DXGI_MODE_DESC BufferDesc;
         ZeroMemory(&BufferDesc, sizeof(DXGI_MODE_DESC));
 
-        BufferDesc.Width = g_resX;
-        BufferDesc.Height = g_resY;
+        BufferDesc.Width = fCurrentRenderX;
+        BufferDesc.Height = fCurrentRenderY;
         BufferDesc.RefreshRate.Numerator = 60;
         BufferDesc.RefreshRate.Denominator = 1;
         BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -90,7 +155,7 @@ namespace rs {
         SwapChainDesc.BufferDesc = BufferDesc;
         SwapChainDesc.SampleDesc.Count = 1;
         SwapChainDesc.SampleDesc.Quality = 0;
-        SwapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        SwapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT;
         SwapChainDesc.BufferCount = 1;
         SwapChainDesc.OutputWindow = g_hWnd;
         SwapChainDesc.Windowed = 1; // Engine settings will change this (as well as UpdateSwapChainResolution)
@@ -123,8 +188,8 @@ namespace rs {
 
         viewport.TopLeftX = 0;
         viewport.TopLeftY = 0;
-        viewport.Height = static_cast<float>(g_resY);
-        viewport.Width = static_cast<float>(g_resX);
+        viewport.Height = fCurrentRenderY;
+        viewport.Width = fCurrentRenderX;
         viewport.MinDepth = 0;
         viewport.MaxDepth = 1;
 
@@ -144,6 +209,9 @@ namespace rs {
             return false;
         }
 
+        // Editor Render targer
+        InitializeEditorViewport(fCurrentRenderX, fCurrentRenderY);
+
         D3D11_BUFFER_DESC cbbd;
         ZeroMemory(&cbbd, sizeof(D3D11_BUFFER_DESC));
 
@@ -161,8 +229,8 @@ namespace rs {
 
         D3D11_TEXTURE2D_DESC DepthStencilDesc;
 
-        DepthStencilDesc.Width = g_resX;
-        DepthStencilDesc.Height = g_resY;
+        DepthStencilDesc.Width = fCurrentRenderX;
+        DepthStencilDesc.Height = fCurrentRenderY;
         DepthStencilDesc.MipLevels = 1;
         DepthStencilDesc.ArraySize = 1;
         DepthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -172,6 +240,7 @@ namespace rs {
         DepthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
         DepthStencilDesc.CPUAccessFlags = 0;
         DepthStencilDesc.MiscFlags = 0;
+
 
         pdx_Device->CreateTexture2D(&DepthStencilDesc, NULL, &pdx_DepthStencilBuffer);
         pdx_Device->CreateDepthStencilView(pdx_DepthStencilBuffer, NULL, &pdx_DepthStencilView);
@@ -200,6 +269,43 @@ namespace rs {
         return true;
     }
 
+    void Render::RenderToEditor()
+    {
+        dx_renderToEditor = true;
+    }
+
+    void Render::RenderToWindow()
+    {
+        dx_renderToEditor = false;
+    }
+
+    void* Render::GetRenderedTexture()
+    {
+        return (void*)pdx_EditorViewportSRV;
+    }
+
+    void Render::UpdateViewportSize(float resX, float resY)
+    {
+        D3D11_VIEWPORT viewport;
+        ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+
+        viewport.TopLeftX = 0;
+        viewport.TopLeftY = 0;
+        viewport.Height = resY;
+        viewport.Width = resX;
+        viewport.MinDepth = 0;
+        viewport.MaxDepth = 1;
+
+        pdx_DeviceContext->RSSetViewports(1, &viewport);
+
+        if (dx_renderToEditor && fCurrentRenderX != resX && fCurrentRenderY != resY) {
+            InitializeEditorViewport(resX, resY);
+        }
+
+        fCurrentRenderX = resX;
+        fCurrentRenderY = resY;
+    }
+
     bool Render::UpdateSwapChainResolution() {
         int newWidth = 0, newHeight = 0;
         pdx_SwapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, NULL);
@@ -214,6 +320,9 @@ namespace rs {
         pdx_ConstantBuffer->Release();
         pdx_DepthStencilBuffer->Release();
         pdx_DepthStencilView->Release();
+        pdx_EditorRenderTargetView->Release();
+        pdx_EditorViewportSRV->Release();
+        pdx_EditorViewportTexture->Release();
         //pdx_RasterizerState->Release();
 
         for (auto pipeline : pipelines) {
@@ -233,7 +342,12 @@ namespace rs {
     }
 
     void Render::RenderScene() {
-        float rgba[4] = { 0.1f, 0.1f, 0.1f, 0.0f };
+        float rgba[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
+
+        if (dx_renderToEditor)
+            pdx_DeviceContext->OMSetRenderTargets(1, &pdx_EditorRenderTargetView, pdx_DepthStencilView);
+
+        pdx_DeviceContext->ClearRenderTargetView(pdx_EditorRenderTargetView, rgba);
 
         pdx_DeviceContext->ClearRenderTargetView(pdx_RenderTargetView, rgba);
         pdx_DeviceContext->ClearDepthStencilView(pdx_DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -241,6 +355,9 @@ namespace rs {
         UpdateCamera();
         RenderInstance(eng);
         RenderAllPipelines();
+
+        if (dx_renderToEditor)
+            pdx_DeviceContext->OMSetRenderTargets(1, &pdx_RenderTargetView, pdx_DepthStencilView);
 
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
@@ -252,7 +369,7 @@ namespace rs {
 
         ImGui::Render();
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-        
+
         pdx_SwapChain->Present(0, 0);
     }
 
@@ -266,7 +383,7 @@ namespace rs {
             {
                 std::shared_ptr<Camera> cam = std::static_pointer_cast<Camera>(kid);
 
-                cam->ViewportSize = Vector2(static_cast<float>(g_resX), static_cast<float>(g_resY));
+                cam->ViewportSize = Vector2(fCurrentRenderX, fCurrentRenderY);
             }
         }
         static XMVECTOR eyePos = XMVectorSet(0.0f, 0.0f, -2.0f, 0.0f);
@@ -279,7 +396,7 @@ namespace rs {
         XMVECTOR upVector = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
         g_cameraMatrix.viewMatrix = XMMatrixLookAtLH(eyePos, lookAtPos, upVector);
-        g_cameraMatrix.projMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(90.0f), (static_cast<float>(g_resX) / static_cast<float>(g_resY)), 0.1f, 1000.0f);
+        g_cameraMatrix.projMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(90.0f), (fCurrentRenderX / fCurrentRenderY), 0.1f, 1000.0f);
 #else // _EDITOR
 
 #endif // _EDITOR

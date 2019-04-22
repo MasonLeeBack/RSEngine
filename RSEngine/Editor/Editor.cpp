@@ -27,6 +27,11 @@ namespace rs {
 
 		ImGuiIO& io = ImGui::GetIO();
 		fonts.push_back(io.Fonts->AddFontFromFileTTF("data/fonts/SourceSansPro-Regular.ttf", 16.0f));
+
+        //
+        // Reroute rendering output to editor viewport
+        //
+        g_Renderer->RenderToEditor();
 		
 		return true;
 	}
@@ -108,6 +113,9 @@ namespace rs {
 	}
 
 	bool CEditor::Shutdown() {
+
+        g_Renderer->RenderToWindow();
+
 		return true;
 	}
 

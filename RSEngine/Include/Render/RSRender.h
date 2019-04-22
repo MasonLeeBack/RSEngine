@@ -94,6 +94,13 @@ namespace rs {
         void Shutdown();
         void RenderScene();
 
+        void RenderToEditor();
+        void RenderToWindow();
+
+        void* GetRenderedTexture(); // Valid only if RenderToEditor is called;
+
+        void UpdateViewportSize(float resX, float resY);
+
         void RenderInstance(std::shared_ptr<Instance> instance);
     private:
         void UpdateCamera();
@@ -102,17 +109,19 @@ namespace rs {
         void RenderAllPipelines();
     };
 
-    extern IDXGISwapChain*          pdx_SwapChain;
-    extern ID3D11Device*            pdx_Device;
-    extern ID3D11DeviceContext*     pdx_DeviceContext;
-    extern ID3D11RenderTargetView*  pdx_RenderTargetView;
+    extern IDXGISwapChain*           pdx_SwapChain;
+    extern ID3D11Device*             pdx_Device;
+    extern ID3D11DeviceContext*      pdx_DeviceContext;
+    extern ID3D11RenderTargetView*   pdx_RenderTargetView;
 
-    extern ID3D11Buffer*            pdx_ConstantBuffer;
+    extern ID3D11Buffer*             pdx_ConstantBuffer;
 
-    extern ID3D11RasterizerState*   pdx_RasterizerState;
+    extern ID3D11RasterizerState*    pdx_RasterizerState;
 
-    extern ID3D11DepthStencilView*  pdx_DepthStencilView;
-    extern ID3D11Texture2D*         pdx_DepthStencilBuffer;
+    extern ID3D11DepthStencilView*   pdx_DepthStencilView;
+    extern ID3D11Texture2D*          pdx_DepthStencilBuffer;
+
+    extern ID3D11ShaderResourceView* pdx_EditorViewportSRV;
 
     extern Render* g_Renderer;
 

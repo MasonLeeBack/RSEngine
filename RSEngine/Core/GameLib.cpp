@@ -31,9 +31,9 @@ namespace rs {
     GameLib* g_GameLib;
 
     bool GameLib::Initialize() {
-        NewInstance(PeePee, Part);
-        PeePee->Size = Vector3(10, 1, 10);
-        PeePee->Position = Vector3(0, 0, 0);
+        NewInstance(Base, Part);
+        Base->Size = Vector3(10, 1, 10);
+        Base->Position = Vector3(0, 0, 0);
 
         return true;
     }

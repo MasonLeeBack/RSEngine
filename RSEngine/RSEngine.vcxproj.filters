@@ -230,6 +230,9 @@
     <ClCompile Include="Classes\EngineClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\EdConfiguration-Orbital.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Classes\Instance.h">
@@ -377,6 +380,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Classes\EngineClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Editor\EdConfiguration-Orbital.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
