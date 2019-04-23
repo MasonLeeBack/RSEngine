@@ -21,33 +21,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-File name: Editor.h
+File name: EdInstanceProperties.h
 
 */
 
 #pragma once
-#ifndef _Editor_h_
-#define _Editor_h_
-
-#include "EditorComponent.h"
-#include "EdViewport.h"
-#include "EdInstanceView.h"
-#include "EdInstanceProperties.h"
-#include "EdConsole.h"
-#include "EdAssetExplorer.h"
-#include "EdUtilities.h"
-#include "EdConfiguration-Orbital.h"
+#ifndef _EdInstanceProperties_h_
+#define _EdInstanceProperties_h_
 
 namespace rs {
-    class CEditor {
-    public:
-        bool Initialize();
-        bool Update();
-        bool Shutdown();
-    };
+    namespace Editor {
+        class InstanceProperties : public EditorComponent {
+        public:
+            void Draw(bool* p_open);
 
-    extern CEditor* g_Editor;
+            void SelectInstance(std::shared_ptr<Instance> instance);
+        };
+    }
 
 } // namespace rs
 
-#endif // _Editor_h_
+#endif // _EdInstanceProperties_h_

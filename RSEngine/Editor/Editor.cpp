@@ -19,6 +19,7 @@ namespace rs {
 	EConsole ec;
 	AssetExplorer ae;
 	InstanceView iv;
+    InstanceProperties ip;
 	Viewport vp;
     EOrbitalConfig eoc;
 
@@ -54,6 +55,7 @@ namespace rs {
 		static bool show_console = true;
 		static bool show_asset_explorer = true;
 		static bool show_instance_list = true;
+        static bool show_instance_properties = true;
 		static bool show_viewport = true;
         static bool show_orbitalconfig = false;
 
@@ -63,6 +65,7 @@ namespace rs {
 		if (show_console)		 ec.Draw(&show_console);
 		if (show_asset_explorer) ae.Draw(&show_asset_explorer);
 		if (show_instance_list)  iv.Draw(&show_instance_list);
+        if (show_instance_properties) ip.Draw(&show_instance_properties);
 		if (show_viewport)       vp.Draw(&show_viewport);
         if (show_orbitalconfig)  eoc.Draw(&show_orbitalconfig);
 
@@ -91,6 +94,11 @@ namespace rs {
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("View")) {
+            ImGui::MenuItem("Asset Explorer", "", &show_asset_explorer, true);
+            ImGui::MenuItem("Console", "", &show_console, true);
+            ImGui::MenuItem("Engine Instances", "", &show_instance_list, true);
+            ImGui::MenuItem("Instance Properties", "", &show_instance_properties, true);
+            ImGui::MenuItem("Level Viewport", "", &show_viewport, true);
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Level")) {
