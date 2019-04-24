@@ -21,8 +21,7 @@ namespace rs {
 	InstanceView iv;
     InstanceProperties ip;
 	Viewport vp;
-    EOrbitalConfig eoc;
-
+    
 	bool CEditor::Initialize() {
 		SetEditorStyle();
 
@@ -57,7 +56,6 @@ namespace rs {
 		static bool show_instance_list = true;
         static bool show_instance_properties = true;
 		static bool show_viewport = true;
-        static bool show_orbitalconfig = false;
 
 		ImGui::PushFont(fonts.back());
 
@@ -67,7 +65,6 @@ namespace rs {
 		if (show_instance_list)  iv.Draw(&show_instance_list);
         if (show_instance_properties) ip.Draw(&show_instance_properties);
 		if (show_viewport)       vp.Draw(&show_viewport);
-        if (show_orbitalconfig)  eoc.Draw(&show_orbitalconfig);
 
 		ImGui::BeginMainMenuBar();
 		if (ImGui::BeginMenu("File")) {
@@ -90,7 +87,6 @@ namespace rs {
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Edit")) {
-            ImGui::MenuItem("Orbital configuration...", "", &show_orbitalconfig, true);
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("View")) {

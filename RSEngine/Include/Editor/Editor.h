@@ -36,7 +36,6 @@ File name: Editor.h
 #include "EdConsole.h"
 #include "EdAssetExplorer.h"
 #include "EdUtilities.h"
-#include "EdConfiguration-Orbital.h"
 
 namespace rs {
     class CEditor {
