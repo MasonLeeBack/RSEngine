@@ -57,8 +57,6 @@ namespace rs {
         Instance();
         ~Instance();
 
-        int renderID = INT_MAX;
-
         std::string Name;
         virtual void SetName(std::string name);
         virtual std::string GetName();
@@ -76,6 +74,10 @@ namespace rs {
         std::vector<std::shared_ptr<Instance>> children;
         virtual std::vector<std::shared_ptr<Instance>> GetChildren();
         virtual void ClearAllChildren(); /* Recursively removes all children */
+
+        RenderPipeline *pipeline = nullptr;
+        virtual void render();
+        virtual void renderChildren();
 
         virtual void tick(); /* called every frame */
         virtual void tickChildren();

@@ -58,29 +58,7 @@ namespace rs {
     extern PIXELSHADER_MAP  PixelMap;
     extern INPUTLAYOUT_MAP  LayoutMap;
 
-    struct RSTexture {
-        ID3D11ShaderResourceView*   Texture;
-        ID3D11SamplerState*         SamplerState;
-    };
-
-    // The downside to our vertex and pixel shader storage implementation is that we can't use the same file names, but that's okay
-    struct RenderPipeline {
-        ID3D11VertexShader* VertexShader;
-        ID3D11InputLayout*  InputLayout;
-        ID3D11PixelShader*  PixelShader;
-
-        ID3D11Buffer*       VertexBuffer;
-        ID3D11Buffer*       IndexBuffer;
-
-        DirectX::XMMATRIX   ViewMatrix;
-
-        RSTexture           Texture;
-
-        int                 VertexCount;
-        int                 IndexCount;
-    };
-
-    extern std::vector<RenderPipeline*> pipelines;
+    extern objCB constantBuffer;
 
     typedef enum SHADER_TYPE {
         ST_PixelShader,
@@ -101,10 +79,10 @@ namespace rs {
 
         void UpdateViewportSize(float resX, float resY);
 
-        void RenderInstance(std::shared_ptr<Instance> instance);
+        bool LoadShader(SHADER_TYPE shaderType, RenderPipeline* pipeline, const char* filename);
+
     private:
         void UpdateCamera();
-        bool LoadShader(SHADER_TYPE shaderType, RenderPipeline* pipeline, const char* filename);
         bool LoadTexture(RSTexture* texture, const char* filename);
         void RenderAllPipelines();
     };

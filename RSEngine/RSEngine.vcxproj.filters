@@ -206,9 +206,6 @@
     <ClCompile Include="Classes\MeshPart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Render\RSRenderInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Core\GameLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -230,7 +227,7 @@
     <ClCompile Include="Classes\EngineClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\EdConfiguration-Orbital.cpp">
+    <ClCompile Include="Editor\EdInstanceProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -382,7 +379,7 @@
     <ClInclude Include="Include\Classes\EngineClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Editor\EdConfiguration-Orbital.h">
+    <ClInclude Include="Include\Types\RSRenderTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

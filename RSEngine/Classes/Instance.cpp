@@ -111,6 +111,18 @@ namespace rs {
 		}
 	}
 
+    void Instance::render() {
+        renderChildren();
+    }
+
+    void Instance::renderChildren() {
+        for (auto kid : children) {
+            if (kid) {
+                kid->render();
+            }
+        }
+    }
+
 	void Instance::tick() {
 		tickChildren();
 	}

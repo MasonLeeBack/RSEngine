@@ -56,6 +56,7 @@ File name: RSEngine.h
 
 // Types
 #include "Types\RareTypes.h"
+#include "Types\RSRenderTypes.h"
 // Classes
 #include "Classes\RSClasses.h"
 

@@ -32,6 +32,8 @@ namespace rs {
     class Part : public BasePart {
     public:
         INITIALIZE_INSTANCE_HEADER(Part);
+
+        void render() override;
     };
 
 } // namespace rs

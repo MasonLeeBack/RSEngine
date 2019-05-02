@@ -153,6 +153,7 @@
     <ClCompile Include="Core\GameLib.cpp" />
     <ClCompile Include="Editor\EdAssetExplorer.cpp" />
     <ClCompile Include="Editor\EdConsole.cpp" />
+    <ClCompile Include="Editor\EdInstanceProperties.cpp" />
     <ClCompile Include="Editor\EdInstanceView.cpp" />
     <ClCompile Include="Editor\Editor.cpp" />
     <ClCompile Include="Editor\EditorComponent.cpp" />
@@ -169,7 +170,6 @@
     <ClCompile Include="Render\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Render\LoadModel_FBX.cpp" />
     <ClCompile Include="Render\RSRenderGui.cpp" />
-    <ClCompile Include="Render\RSRenderInstance.cpp" />
     <ClCompile Include="Render\RSCreateTexture.cpp" />
     <ClCompile Include="Render\RSGeometryGenerator.cpp" />
     <ClCompile Include="Render\RSLoadShader.cpp" />
@@ -227,6 +227,7 @@
     <ClInclude Include="Include\Types\MeshData.h" />
     <ClInclude Include="Include\Types\RareRes.h" />
     <ClInclude Include="Include\Types\RareTypes.h" />
+    <ClInclude Include="Include\Types\RSRenderTypes.h" />
     <ClInclude Include="Include\Types\Vector2.h" />
     <ClInclude Include="Include\Types\Vector3.h" />
     <ClInclude Include="Include\Window\WindowSystem.h" />

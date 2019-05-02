@@ -56,8 +56,6 @@ namespace rs {
 
     float                       fCurrentRenderX = 0.0f;
     float                       fCurrentRenderY = 0.0f;
-
-    std::vector<RenderPipeline*> pipelines;
     
     //
     // This function is extracted from Render::Initialize because
@@ -325,15 +323,6 @@ namespace rs {
         pdx_EditorViewportTexture->Release();
         //pdx_RasterizerState->Release();
 
-        for (auto pipeline : pipelines) {
-            pipeline->IndexBuffer->Release();
-            pipeline->InputLayout->Release();
-            pipeline->PixelShader->Release();
-            pipeline->VertexBuffer->Release();
-            pipeline->VertexBuffer->Release();
-            pipeline->VertexShader->Release();
-        }
-
         // And any subcomponents of the renderer...
         ImGui_ImplDX11_Shutdown();
         ImGui_ImplWin32_Shutdown();
@@ -353,8 +342,7 @@ namespace rs {
         pdx_DeviceContext->ClearDepthStencilView(pdx_DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
         UpdateCamera();
-        RenderInstance(eng);
-        RenderAllPipelines();
+        eng->render();
 
         if (dx_renderToEditor)
             pdx_DeviceContext->OMSetRenderTargets(1, &pdx_RenderTargetView, pdx_DepthStencilView);
@@ -400,37 +388,6 @@ namespace rs {
 #else // _EDITOR
 
 #endif // _EDITOR
-    }
-
-    void Render::RenderAllPipelines() {
-        for (auto pipeline : pipelines) {
-            if (pipeline->VertexShader)
-                pdx_DeviceContext->VSSetShader(pipeline->VertexShader, 0, 0);
-            if (pipeline->PixelShader)
-                pdx_DeviceContext->PSSetShader(pipeline->PixelShader, 0, 0);
-            // HS, TS, etc.
-
-            // fix
-            constantBuffer.WVP = pipeline->ViewMatrix * g_cameraMatrix.viewMatrix * g_cameraMatrix.projMatrix;
-            constantBuffer.WVP = XMMatrixTranspose(constantBuffer.WVP);
-            pdx_DeviceContext->UpdateSubresource(pdx_ConstantBuffer, 0, NULL, &constantBuffer, 0, 0);
-            pdx_DeviceContext->VSSetConstantBuffers(0, 1, &pdx_ConstantBuffer);
-
-            if (pipeline->InputLayout)
-                pdx_DeviceContext->IASetInputLayout(pipeline->InputLayout);
-
-            pdx_DeviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-            UINT stride = sizeof(MeshData::vertex);
-            UINT offset = 0;
-            pdx_DeviceContext->IASetVertexBuffers(0, 1, &pipeline->VertexBuffer, &stride, &offset);
-
-            if (!pipeline->IndexBuffer)
-                pdx_DeviceContext->Draw(pipeline->VertexCount, 0);
-            else
-                pdx_DeviceContext->IASetIndexBuffer(pipeline->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-                pdx_DeviceContext->DrawIndexed(pipeline->IndexCount, 0, 0);
-
-        }
     }
 
 } // namespace rs
