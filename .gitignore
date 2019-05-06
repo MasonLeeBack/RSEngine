@@ -8,3 +8,6 @@
 RSEngine.VC.VC.opendb
 RSEngine.VC.db
 *.aps
+*.rsfx
+imgui.ini
+RSEngine.exe
