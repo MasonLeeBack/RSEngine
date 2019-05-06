@@ -31,10 +31,17 @@ namespace rs {
     GameLib* g_GameLib;
 
     bool GameLib::Initialize() {
+
         NewInstance(Base, Part);
-        Base->Size = Vector3(10, 1, 10);
+        Base->Size = Vector3(1, 1, 1);
         Base->Position = Vector3(0, 0, 0);
 
+        NewInstance(Sphere, MeshPart);
+        Sphere->MeshFile = "ff";
+        Sphere->Size = Vector3(1, 1, 1);
+        Sphere->Position = Vector3(0, 1, 0);
+        
+        
         return true;
     }
 

@@ -34,7 +34,8 @@ namespace rs {
         INITIALIZE_INSTANCE_HEADER(Texture);
 
         std::string File;
-
+        
+        void render() override;
     };
 
 } // namespace rs

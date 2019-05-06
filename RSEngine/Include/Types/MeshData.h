@@ -30,17 +30,75 @@ File name: MeshData.h
 #define _MeshData_h_
 
 namespace rs {
-    struct MeshData {
-        struct vertex {
-            float vertexPosition[3];
-            float vertexColor[4];
-            float vertexUV[2];
+
+    struct vertexPos {
+        union {
+            struct {
+                float x;
+                float y;
+                float z;
+            };
+            float v[3];
+        };
+        
+        static vertexPos set(float x, float y, float z) { vertexPos temp; temp.x = x; temp.y = y; temp.z = z; return temp; }
+
+        bool operator==(const vertexPos& other) const {
+            return x == other.x && y == other.y && z == other.z;
+        }
+    };
+
+    struct vertexCol {
+        union {
+            struct {
+                float r;
+                float g;
+                float b;
+                float a;
+            };
+            float c[4];
         };
 
+        static vertexCol set(float r, float g, float b, float a) { vertexCol temp; temp.r = r; temp.g = g; temp.b = b; temp.a = a; return temp; }
+
+        bool operator==(const vertexCol& other) const {
+            return r == other.r && g == other.g && b == other.b && a == other.a;
+        }
+    };
+
+    struct vertexUV {
+        union {
+            struct {
+                float u;
+                float v;
+            };
+            float t[2];
+        };
+
+        static vertexUV set(float u, float v) { vertexUV temp; temp.u = u; temp.v = v; return temp; }
+
+        bool operator==(const vertexUV& other) const {
+            return u == other.u && v == other.v;
+        }
+    };
+
+    struct vertex {
+        vertexPos pos;
+        vertexCol color;
+        vertexUV texCoord;
+
+        bool operator==(const vertex& other) const {
+            return pos == other.pos && color == other.color && texCoord == other.texCoord;
+        }
+    };
+
+    struct MeshData {
         std::vector<vertex>         vertexMap;
         std::vector<unsigned int>   vertexIndices;
     };
 
 } // namespace rs
+
+
 
 #endif // _MeshData_h_

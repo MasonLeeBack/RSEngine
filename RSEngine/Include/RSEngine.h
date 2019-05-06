@@ -48,6 +48,7 @@ File name: RSEngine.h
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
 #include <map>
 #include <algorithm>
 #include <cctype>

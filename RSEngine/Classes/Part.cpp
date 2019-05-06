@@ -34,16 +34,15 @@ namespace rs {
 
         if (pipeline == nullptr) {
             pipeline = new RenderPipeline;
-
-            MeshData partMesh;
+            
             GeometryGenerator gen;
-            gen.GenerateCube(Vector3(1, 1, 1), &partMesh);
+            MeshData partMesh = gen.GenerateCube();
 
             D3D11_BUFFER_DESC vertexBufferDesc;
             ZeroMemory(&vertexBufferDesc, sizeof(D3D11_BUFFER_DESC));
             vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
             vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-            vertexBufferDesc.ByteWidth = sizeof(MeshData::vertex) * partMesh.vertexMap.size();
+            vertexBufferDesc.ByteWidth = sizeof(vertex) * partMesh.vertexMap.size();
             vertexBufferDesc.CPUAccessFlags = 0;
 
             D3D11_SUBRESOURCE_DATA resourceDataVertex;
@@ -89,7 +88,7 @@ namespace rs {
             pdx_DeviceContext->IASetInputLayout(pipeline->InputLayout);
 
         pdx_DeviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        UINT stride = sizeof(MeshData::vertex);
+        UINT stride = sizeof(vertex);
         UINT offset = 0;
         pdx_DeviceContext->IASetVertexBuffers(0, 1, &pipeline->VertexBuffer, &stride, &offset);
 

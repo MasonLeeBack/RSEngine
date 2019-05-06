@@ -26,22 +26,25 @@ File name: RSGeometryGenerator.cpp
 */
 
 #include <RSEngine.h>
+#include <Types/RSRenderTypes.h>
 
 namespace rs {
-    void GeometryGenerator::GenerateCube(Vector3 Size, MeshData* mesh) {
-        mesh->vertexMap =
+    MeshData GeometryGenerator::GenerateCube() {
+        MeshData mesh;
+
+        mesh.vertexMap =
         {
-            { 0.0f, Size.Y, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
-            { Size.X, Size.Y, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+            { 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+            { 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
             { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f },
-            { Size.X, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f },
-            { 0.0f, Size.Y, Size.Z, 0.0f, 0.0f, 1.0f, 1.0f },
-            { Size.X, Size.Y, Size.Z, 1.0f, 0.0f, 0.0f, 1.0f },
-            { 0.0f, 0.0f, Size.Z, 0.0f, 1.0f, 0.0f, 1.0f, },
-            { Size.X, 0.0f, Size.Z, 0.0f, 1.0f, 1.0f, 1.0f, },
+            { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+            { 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+            { 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f },
+            { 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, },
+            { 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, },
         };
 
-        mesh->vertexIndices =
+        mesh.vertexIndices =
         {
             0, 1, 2,    // side 1
             2, 1, 3,
@@ -56,6 +59,77 @@ namespace rs {
             3, 7, 2,    // side 6
             2, 7, 6,
         };
+
+        return mesh;
+    }
+
+    MeshData GeometryGenerator::GenerateQuad() {
+        MeshData mesh;
+
+        mesh.vertexMap =
+        {
+            { vertexPos::set(0, 1, 0), vertexCol::set(0, 0, 1, 1), vertexUV::set(0, 1)},
+            { vertexPos::set(1, 1, 0), vertexCol::set(0, 1, 0, 1), vertexUV::set(1, 1)},
+            { vertexPos::set(0, 0, 0), vertexCol::set(1, 0, 0, 1), vertexUV::set(0, 0)},
+            { vertexPos::set(1, 0, 0), vertexCol::set(0, 1, 1, 1), vertexUV::set(1, 0)},
+        };
+
+        mesh.vertexIndices =
+        {
+            0, 1, 2,
+            2, 1, 3
+        };
+
+        return mesh;
+    }
+
+    MeshData GeometryGenerator::GenerateSphere(float rad, float ring, float slice) {
+        
+        MeshData mesh;
+        float engOffset = 0.5f;
+
+        float dPhi = RS_PI / (ring - 1);
+        for (float phi = -RS_PIDIV2; phi <= RS_PIDIV2 + 0.00001f; phi += dPhi)
+        {
+            float y = rad * sinf(phi) + engOffset;
+            float r = rad * cosf(phi);
+
+            float dTheta = 2.0f*RS_PI / slice;
+            for (unsigned j = 0; j <= slice; j++)
+            {
+                vertex mVertex;
+                float theta = j * dTheta;
+                float x = r * cosf(theta) + engOffset;
+                float z = r * sinf(theta) + engOffset;
+                mVertex.pos = vertexPos::set(x, y, z);
+                {
+                    float u = (float)j / slice;
+                    float v = (y + rad) / (2 * rad);
+                    mVertex.texCoord = vertexUV::set(u, v);
+                }
+
+                mVertex.color = vertexCol::set(0, 1.0f, 1.0f, 1.0f);
+
+                mesh.vertexMap.push_back(mVertex);
+            }
+
+        }
+
+        unsigned ringvc = slice + 1;
+        for (unsigned int i = 0; i < ring; i++)
+        {
+            for (unsigned int j = 0; j < slice; j++)
+            {
+                mesh.vertexIndices.push_back(i*ringvc + j);
+                mesh.vertexIndices.push_back((i + 1)*ringvc + j);
+                mesh.vertexIndices.push_back((i + 1)*ringvc + j + 1);
+                mesh.vertexIndices.push_back(i*ringvc + j);
+                mesh.vertexIndices.push_back((i + 1)*ringvc + j + 1);
+                mesh.vertexIndices.push_back(i*ringvc + j + 1);
+            }
+        }
+
+        return mesh;
     }
 
 } // namespace rs

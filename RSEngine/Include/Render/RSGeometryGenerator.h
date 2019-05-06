@@ -32,7 +32,10 @@ File name: RSGeometryGenerator.h
 namespace rs {
     class GeometryGenerator {
     public:
-        void GenerateCube(Vector3 Size, MeshData* mesh);
+        MeshData GenerateCube();
+        MeshData GenerateQuad();
+
+        MeshData GenerateSphere(float rad, float ring, float slice);
     };
 } // namespace rs
 

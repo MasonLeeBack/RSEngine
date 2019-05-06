@@ -230,6 +230,9 @@
     <ClCompile Include="Editor\EdInstanceProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Render\LoadModel_OBJ.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Classes\Instance.h">
@@ -257,9 +260,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\Filesystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Types\CoordData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Render\RSRender.h">
@@ -380,6 +380,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Types\RSRenderTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Render\tiny_obj_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Render\LoadModel_OBJ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Types\RSRenderMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

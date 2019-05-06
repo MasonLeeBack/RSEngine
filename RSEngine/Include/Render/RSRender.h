@@ -84,7 +84,6 @@ namespace rs {
     private:
         void UpdateCamera();
         bool LoadTexture(RSTexture* texture, const char* filename);
-        void RenderAllPipelines();
     };
 
     extern IDXGISwapChain*           pdx_SwapChain;
@@ -108,6 +107,8 @@ namespace rs {
 #ifdef _USE_FBX_SDK_
 #include "LoadModel_FBX.h"
 #endif // _USE_FBX_SDK_
+
+#include "LoadModel_OBJ.h"
 
 #include "RSGeometryGenerator.h"
 

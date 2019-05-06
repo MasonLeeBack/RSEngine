@@ -30,5 +30,10 @@ File name: Texture.cpp
 namespace rs {
     INITIALIZE_INSTANCE_SOURCE(Texture);
 
+    void Texture::render() {
+
+        renderChildren();
+    }
+
 } // namespace RS
 

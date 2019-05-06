@@ -31,7 +31,6 @@ Warning: Never include types explicitly to other files!
 #define _RareTypes_h_
 
 #include "RareRes.h"
-#include "CoordData.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "InputType.h"

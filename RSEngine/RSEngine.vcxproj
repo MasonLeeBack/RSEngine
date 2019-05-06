@@ -169,6 +169,7 @@
     <ClCompile Include="Render\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="Render\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Render\LoadModel_FBX.cpp" />
+    <ClCompile Include="Render\LoadModel_OBJ.cpp" />
     <ClCompile Include="Render\RSRenderGui.cpp" />
     <ClCompile Include="Render\RSCreateTexture.cpp" />
     <ClCompile Include="Render\RSGeometryGenerator.cpp" />
@@ -218,15 +219,17 @@
     <ClInclude Include="Include\Render\ImGui\imstb_textedit.h" />
     <ClInclude Include="Include\Render\ImGui\imstb_truetype.h" />
     <ClInclude Include="Include\Render\LoadModel_FBX.h" />
+    <ClInclude Include="Include\Render\LoadModel_OBJ.h" />
     <ClInclude Include="Include\Render\RSGeometryGenerator.h" />
+    <ClInclude Include="Include\Render\tiny_obj_loader.h" />
     <ClInclude Include="Include\RSEngine.h" />
     <ClInclude Include="Include\Render\RSRender.h" />
     <ClInclude Include="Include\RSEngine_BuildMacros.h" />
-    <ClInclude Include="Include\Types\CoordData.h" />
     <ClInclude Include="Include\Types\InputType.h" />
     <ClInclude Include="Include\Types\MeshData.h" />
     <ClInclude Include="Include\Types\RareRes.h" />
     <ClInclude Include="Include\Types\RareTypes.h" />
+    <ClInclude Include="Include\Types\RSRenderMath.h" />
     <ClInclude Include="Include\Types\RSRenderTypes.h" />
     <ClInclude Include="Include\Types\Vector2.h" />
     <ClInclude Include="Include\Types\Vector3.h" />

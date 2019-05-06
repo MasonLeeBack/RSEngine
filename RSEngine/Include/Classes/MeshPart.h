@@ -36,6 +36,8 @@ namespace rs {
         std::string MeshFile;
         std::string MeshTexture;
 
+        void render() override;
+
     };
 
 } // namespace rs

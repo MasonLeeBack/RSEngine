@@ -10,6 +10,8 @@ File name: RSRenderTypes.h
 #ifndef _RSRenderTypes_h_
 #define _RSRenderTypes_h_
 
+#include "RSRenderMath.h"
+
 namespace rs {
     struct RSTexture {
         ID3D11ShaderResourceView*   Texture;
