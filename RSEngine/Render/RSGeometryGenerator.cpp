@@ -34,14 +34,14 @@ namespace rs {
 
         mesh.vertexMap =
         {
-            { 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
-            { 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
-            { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f },
-            { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f },
-            { 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f },
-            { 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, },
-            { 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, },
+            { vertexPos::set(0, 1, 0), 1.0f, 1.0f, 1.0f, 1.0f, vertexUV::set(0, 0) },
+            { vertexPos::set(1, 1, 0), 1.0f, 1.0f, 1.0f, 1.0f, vertexUV::set(1, 0) },
+            { vertexPos::set(0, 0, 0), 1.0f, 1.0f, 1.0f, 1.0f, vertexUV::set(0, 1) },
+            { vertexPos::set(1, 0, 0), 1.0f, 1.0f, 1.0f, 1.0f, vertexUV::set(1, 1) },
+            { vertexPos::set(0, 1, 1), 1.0f, 1.0f, 1.0f, 1.0f, vertexUV::set(0, 0) },
+            { vertexPos::set(1, 1, 1), 1.0f, 1.0f, 1.0f, 1.0f, vertexUV::set(1, 0) },
+            { vertexPos::set(0, 0, 1), 1.0f, 1.0f, 1.0f, 1.0f, vertexUV::set(0, 1) },
+            { vertexPos::set(1, 0, 1), 1.0f, 1.0f, 1.0f, 1.0f, vertexUV::set(1, 1) },
         };
 
         mesh.vertexIndices =
@@ -68,10 +68,10 @@ namespace rs {
 
         mesh.vertexMap =
         {
-            { vertexPos::set(0, 1, 0), vertexCol::set(0, 0, 1, 1), vertexUV::set(0, 1)},
-            { vertexPos::set(1, 1, 0), vertexCol::set(0, 1, 0, 1), vertexUV::set(1, 1)},
-            { vertexPos::set(0, 0, 0), vertexCol::set(1, 0, 0, 1), vertexUV::set(0, 0)},
-            { vertexPos::set(1, 0, 0), vertexCol::set(0, 1, 1, 1), vertexUV::set(1, 0)},
+            { vertexPos::set(0, 1, 0), vertexCol::set(1, 1, 1, 1), vertexUV::set(0, 1)},
+            { vertexPos::set(1, 1, 0), vertexCol::set(1, 1, 1, 1), vertexUV::set(1, 1)},
+            { vertexPos::set(0, 0, 0), vertexCol::set(1, 1, 1, 1), vertexUV::set(0, 0)},
+            { vertexPos::set(1, 0, 0), vertexCol::set(1, 1, 1, 1), vertexUV::set(1, 0)},
         };
 
         mesh.vertexIndices =
@@ -108,7 +108,7 @@ namespace rs {
                     mVertex.texCoord = vertexUV::set(u, v);
                 }
 
-                mVertex.color = vertexCol::set(0, 1.0f, 1.0f, 1.0f);
+                mVertex.color = vertexCol::set(1.0f, 1.0f, 1.0f, 1.0f);
 
                 mesh.vertexMap.push_back(mVertex);
             }

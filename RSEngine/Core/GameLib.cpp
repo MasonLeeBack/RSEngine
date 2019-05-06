@@ -36,11 +36,26 @@ namespace rs {
         Base->Size = Vector3(1, 1, 1);
         Base->Position = Vector3(0, 0, 0);
 
+        NewInstance(Texturx, Texture);
+        Texturx->SetParent(Base);
+        Texturx->File = "data/textures/kid.png";
+
         NewInstance(Sphere, MeshPart);
         Sphere->MeshFile = "ff";
         Sphere->Size = Vector3(1, 1, 1);
         Sphere->Position = Vector3(0, 1, 0);
         
+        NewInstance(Texturxi, Texture);
+        Texturxi->SetParent(Sphere);
+        Texturxi->File = "data/textures/texture.png";
+
+        NewInstance(Brick, Part);
+        Brick->Size = Vector3(1024, 1024, 1024);
+        Brick->Position = Vector3(-512, -512, -512);
+
+        NewInstance(Texturxv, Texture);
+        Texturxv->SetParent(Brick);
+        Texturxv->File = "data/textures/texture.png";
         
         return true;
     }

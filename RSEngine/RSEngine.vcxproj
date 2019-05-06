@@ -174,6 +174,7 @@
     <ClCompile Include="Render\RSCreateTexture.cpp" />
     <ClCompile Include="Render\RSGeometryGenerator.cpp" />
     <ClCompile Include="Render\RSLoadShader.cpp" />
+    <ClCompile Include="Render\stb_image.cpp" />
     <ClCompile Include="RSEngine.cpp" />
     <ClCompile Include="Render\RSRender.cpp" />
     <ClCompile Include="Types\CoordFrame.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Include\Core\GameLib.h" />
     <ClInclude Include="Include\Editor\EdAssetExplorer.h" />
     <ClInclude Include="Include\Editor\EdConsole.h" />
+    <ClInclude Include="Include\Editor\EdInstanceProperties.h" />
     <ClInclude Include="Include\Editor\EdInstanceView.h" />
     <ClInclude Include="Include\Editor\Editor.h" />
     <ClInclude Include="Include\Editor\EditorComponent.h" />
@@ -221,6 +223,7 @@
     <ClInclude Include="Include\Render\LoadModel_FBX.h" />
     <ClInclude Include="Include\Render\LoadModel_OBJ.h" />
     <ClInclude Include="Include\Render\RSGeometryGenerator.h" />
+    <ClInclude Include="Include\Render\stb_image.h" />
     <ClInclude Include="Include\Render\tiny_obj_loader.h" />
     <ClInclude Include="Include\RSEngine.h" />
     <ClInclude Include="Include\Render\RSRender.h" />

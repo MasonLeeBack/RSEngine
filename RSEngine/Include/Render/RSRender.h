@@ -36,6 +36,7 @@ File name: RSRender.h
 namespace rs {
     struct objCB {
         DirectX::XMMATRIX  WVP;
+        bool objectTextured = false;
     };
 
     struct cameraMatrix {
@@ -107,6 +108,8 @@ namespace rs {
 #ifdef _USE_FBX_SDK_
 #include "LoadModel_FBX.h"
 #endif // _USE_FBX_SDK_
+
+#include "stb_image.h"
 
 #include "LoadModel_OBJ.h"
 

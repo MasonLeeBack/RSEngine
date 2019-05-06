@@ -1,6 +1,7 @@
 cbuffer cbPerObject
 {
     float4x4 WVP;
+    bool texturedObject;
 };
 
 struct VS_OUTPUT
@@ -20,7 +21,14 @@ VS_OUTPUT VS(float4 inPos : POSITION, float4 inColor : COLOR, float2 inTexCoord 
     return output;
 }
 
+Texture2D tex;
+SamplerState samp;
+
 float4 PS(VS_OUTPUT input) : SV_TARGET
 {
-	return input.Color;
+    float4 color;
+
+    color = input.Color;
+
+    return color * tex.Sample(samp, input.TexCoord);
 }

@@ -14,6 +14,8 @@ File name: RSRenderTypes.h
 
 namespace rs {
     struct RSTexture {
+        bool                        DrawTexture = false;
+        ID3D11Texture2D*            TextureSource;
         ID3D11ShaderResourceView*   Texture;
         ID3D11SamplerState*         SamplerState;
     };

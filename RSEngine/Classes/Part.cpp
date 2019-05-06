@@ -34,7 +34,7 @@ namespace rs {
 
         if (pipeline == nullptr) {
             pipeline = new RenderPipeline;
-            
+
             GeometryGenerator gen;
             MeshData partMesh = gen.GenerateCube();
 
@@ -86,6 +86,15 @@ namespace rs {
 
         if (pipeline->InputLayout)
             pdx_DeviceContext->IASetInputLayout(pipeline->InputLayout);
+
+        if (pipeline->Texture.DrawTexture == true) {
+            pdx_DeviceContext->PSSetSamplers(0, 1, &pipeline->Texture.SamplerState);
+            pdx_DeviceContext->PSSetShaderResources(0, 1, &pipeline->Texture.Texture);
+        }
+        else {
+            ID3D11ShaderResourceView* nullSRV = { nullptr };
+            pdx_DeviceContext->PSSetShaderResources(0, 1, &nullSRV);
+        }
 
         pdx_DeviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         UINT stride = sizeof(vertex);
