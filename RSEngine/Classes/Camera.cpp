@@ -29,5 +29,9 @@ File name: Camera.cpp
 
 namespace rs {
     INITIALIZE_INSTANCE_SOURCE(Camera);
+
+    void Camera::render() {
+        renderChildren();
+    }
 	
 } // namespace rs

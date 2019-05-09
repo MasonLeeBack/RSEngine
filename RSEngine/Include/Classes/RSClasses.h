@@ -37,6 +37,7 @@ File name: RSClasses.h
 #include "MeshPart.h"
 #include "Folder.h"
 #include "Texture.h"
+#include "Skybox.h"
 
 namespace rs {
 

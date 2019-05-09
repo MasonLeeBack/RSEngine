@@ -25,8 +25,8 @@ namespace rs {
                 ImVec2 WindowSize = ImGui::GetWindowSize();
                 WindowSize.y = WindowSize.y - 26.0f;
 
-                g_Renderer->UpdateViewportSize(WindowSize.x, WindowSize.y);
-                ImGui::Image(g_Renderer->GetRenderedTexture(), WindowSize, ImVec2(0, 0), ImVec2(1, 1));
+                //g_Renderer->UpdateViewportSize(WindowSize.x, WindowSize.y);
+                //ImGui::Image(g_Renderer->GetRenderedTexture(), WindowSize, ImVec2(0, 0), ImVec2(1, 1));
 
             }
             ImGui::End();

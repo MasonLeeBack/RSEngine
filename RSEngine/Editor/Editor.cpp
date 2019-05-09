@@ -31,7 +31,7 @@ namespace rs {
         //
         // Reroute rendering output to editor viewport
         //
-        g_Renderer->RenderToEditor();
+        //g_Renderer->RenderToEditor();
 		
 		return true;
 	}
@@ -118,7 +118,7 @@ namespace rs {
 
 	bool CEditor::Shutdown() {
 
-        g_Renderer->RenderToWindow();
+        //g_Renderer->RenderToWindow();
 
 		return true;
 	}

@@ -36,6 +36,7 @@ namespace rs {
         std::string File;
         
         void render() override;
+        void renderClean() override;
     };
 
 } // namespace rs

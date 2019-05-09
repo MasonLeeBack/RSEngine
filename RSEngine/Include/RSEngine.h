@@ -55,9 +55,14 @@ File name: RSEngine.h
 
 #include "RSEngine_BuildMacros.h"
 
+#include "Render\RSRender.h"
+
 // Types
 #include "Types\RareTypes.h"
-#include "Types\RSRenderTypes.h"
+
+// Utils
+#include "Utils\RSUtils.h"
+
 // Classes
 #include "Classes\RSClasses.h"
 
@@ -67,7 +72,7 @@ File name: RSEngine.h
 #include "Parser\RareParser.h"
 #include "Core\Config.h"
 #include "Core\Filesystem.h"
-#include "Render\RSRender.h"
+
 #include "Editor\Editor.h"
 #include "Core\Console.h"
 #include "Core\GameLib.h"

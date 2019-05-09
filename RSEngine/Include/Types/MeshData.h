@@ -71,14 +71,16 @@ namespace rs {
             struct {
                 float u;
                 float v;
+                float w;
             };
-            float t[2];
+            float t[3];
         };
 
-        static vertexUV set(float u, float v) { vertexUV temp; temp.u = u; temp.v = v; return temp; }
+        static vertexUV set(float u, float v) { vertexUV temp; temp.u = u; temp.v = v; temp.w = 0.0f; return temp; }
+        static vertexUV set(float u, float v, float w) { vertexUV temp; temp.u = u; temp.v = v; temp.w = w; return temp; }
 
         bool operator==(const vertexUV& other) const {
-            return u == other.u && v == other.v;
+            return u == other.u && v == other.v && other.w == w;
         }
     };
 

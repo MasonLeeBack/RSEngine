@@ -48,11 +48,15 @@ namespace rs {
 	void Instance::Remove() {
 		SetParent(NULL);
 
+        renderClean();
+
 		for (auto kid : children) {
 			if (kid) {
 				kid->Remove();
 			}
 		}
+
+        delete this;
 	}
 
 	std::shared_ptr<Instance> Instance::CopyInstance(std::shared_ptr<Instance> Parent) {
@@ -113,6 +117,10 @@ namespace rs {
 
     void Instance::render() {
         renderChildren();
+    }
+
+    void Instance::renderClean() {
+        // Nothing to clean in base Instance.
     }
 
     void Instance::renderChildren() {

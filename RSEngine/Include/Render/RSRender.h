@@ -29,90 +29,70 @@ File name: RSRender.h
 #ifndef _RSRender_h_
 #define _RSRender_h_
 
-#include <Render/ImGui/imgui.h>
-#include <Render/ImGui/imgui_impl_win32.h>
-#include <Render/ImGui/imgui_impl_dx11.h>
+#include <Render/ThirdParty/ImGui/imgui.h>
+#include <Render/ThirdParty/ImGui/imgui_impl_win32.h>
+#include <Render/ThirdParty/ImGui/imgui_impl_dx11.h>
 
-namespace rs {
-    struct objCB {
-        DirectX::XMMATRIX  WVP;
-        bool objectTextured = false;
-    };
+#include <Render/ThirdParty/stb_image.h>
 
-    struct cameraMatrix {
-        DirectX::XMMATRIX viewMatrix;
-        DirectX::XMMATRIX projMatrix;
-    };
+#include "RSRender_Types.h"
+#include "RSRender_Math.h"
+#include "RSRender_Buffer.h"
+#include "RSRender_Shader.h"
+#include "RSRender_Texture.h"
+#include "RSRender_EditorView.h"
 
-    enum rasterType {
-        RT_NORMAL,
-        RT_WIREFRAME
-    };
+namespace rs::Render {
 
-    extern cameraMatrix     g_cameraMatrix;
+    typedef std::map<const char*, RSRender_Shader*> RSShaderMap;
+    extern RSShaderMap shaderMap;
 
-    typedef std::map<const char*, ID3D11VertexShader*>  VERTEXSHADER_MAP;
-    typedef std::map<const char*, ID3D11PixelShader*>   PIXELSHADER_MAP;
-    typedef std::map<const char*, ID3D11InputLayout*>   INPUTLAYOUT_MAP;
-
-    extern VERTEXSHADER_MAP VertexMap;
-    extern PIXELSHADER_MAP  PixelMap;
-    extern INPUTLAYOUT_MAP  LayoutMap;
-
-    extern objCB constantBuffer;
-
-    typedef enum SHADER_TYPE {
-        ST_PixelShader,
-        ST_VertexShader
-    }ShaderType;
-
-    class Render {
+    class RSRender {
     public:
-        bool Initialize();
-        bool UpdateSwapChainResolution();
-        void Shutdown();
-        void RenderScene();
+        virtual bool Initialize();
+        virtual void Update();
+        virtual void Shutdown();
 
-        void RenderToEditor();
-        void RenderToWindow();
+        virtual RSRenderTargetView CreateRenderTarget(RSRender_Texture* texture);
+        virtual void ClearRenderTarget(float color[4]);
 
-        void* GetRenderedTexture(); // Valid only if RenderToEditor is called;
+        virtual void ClearDepthStencil();
 
-        void UpdateViewportSize(float resX, float resY);
+        virtual RSRender_Texture* CreateTexture(const RSTextureDesc& desc);
+        virtual void DestroyTexture(RSRender_Texture* texture);
 
-        bool LoadShader(SHADER_TYPE shaderType, RenderPipeline* pipeline, const char* filename);
+        virtual RSRender_Buffer* CreateBuffer(const RSBufferDesc& desc);
+        virtual void DestroyBuffer(RSRender_Buffer* buffer);
 
-    private:
-        void UpdateCamera();
-        bool LoadTexture(RSTexture* texture, const char* filename);
+        virtual void SetShaderResource(RSShaderStage stage, RSShaderResourceView srv);
+        virtual void SetShaderSampler(RSShaderStage stage, RSShaderSamplerState sss);
+
+        virtual RSRender_Shader* CreateShaderFromFile(RSShaderStage stage, const char* fileName);
+        virtual RSRender_Shader* CreateShaderFromBlob(RSShaderStage stage, void* shaderBlob);
+        virtual void DestroyShader(RSRender_Shader* shader);
+
+        virtual void SetShader(RSRender_Shader* shader);
+
+        virtual void SetVertexBuffer(RSRender_Buffer* buf);
+        virtual void SetIndexBuffer(RSRender_Buffer* buf);
+
+        virtual void UpdateResolution(bool bIsEditor, float width, float height);
+
+        virtual void PresentSwapChain();
+
+        virtual void Draw(unsigned int vertexCount, RSPrimitiveTopology topology);
+        virtual void DrawIndexed(unsigned int indexCount, RSPrimitiveTopology topology);
+
+        virtual RSRender* getCurrentRenderer();
+
     };
 
-    extern IDXGISwapChain*           pdx_SwapChain;
-    extern ID3D11Device*             pdx_Device;
-    extern ID3D11DeviceContext*      pdx_DeviceContext;
-    extern ID3D11RenderTargetView*   pdx_RenderTargetView;
+    extern RSRender* g_Renderer;
 
-    extern ID3D11Buffer*             pdx_ConstantBuffer;
+} // namespace rs::Render
 
-    extern ID3D11RasterizerState*    pdx_RasterizerState;
-
-    extern ID3D11DepthStencilView*   pdx_DepthStencilView;
-    extern ID3D11Texture2D*          pdx_DepthStencilBuffer;
-
-    extern ID3D11ShaderResourceView* pdx_EditorViewportSRV;
-
-    extern Render* g_Renderer;
-
-} // namespace rs
-
-#ifdef _USE_FBX_SDK_
-#include "LoadModel_FBX.h"
-#endif // _USE_FBX_SDK_
-
-#include "stb_image.h"
-
-#include "LoadModel_OBJ.h"
-
-#include "RSGeometryGenerator.h"
+#ifdef _WIN32
+#include <Render/D3D11/RSD3D11.h>
+#endif
 
 #endif // _RSRender_h_

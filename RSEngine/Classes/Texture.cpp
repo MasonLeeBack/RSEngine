@@ -27,76 +27,45 @@ File name: Texture.cpp
 
 #include <RSEngine.h>
 
+using namespace rs::Render;
+using namespace rs::Utils;
+
 namespace rs {
     INITIALIZE_INSTANCE_SOURCE(Texture);
 
     void Texture::render() {
-        HRESULT hr;
-        RSTexture* tex = &Parent->pipeline->Texture;
+        /* Get the parent instance pipeline. */
+        RenderPipeline* parentPipeline = Parent->pipeline;
 
-        if (tex->DrawTexture == false) {
-
+        /* Another texture isn't already applied. Apply one. */
+        if (parentPipeline->textureObject == nullptr) {
             // load the texture data and assign the texture file
             int tex_width, tex_height, tex_bpp;
             unsigned char *data = stbi_load(File.c_str(), &tex_width, &tex_height, &tex_bpp, STBI_rgb_alpha);
             if (data == NULL)
                 return;
 
-            // assign the subresource data
-            D3D11_SUBRESOURCE_DATA mData;
-            mData.pSysMem = data;
-            mData.SysMemPitch = tex_width * tex_bpp;
-            mData.SysMemSlicePitch = 0;
+            RSTextureDesc desc;
+            desc.imageType = RS_IMAGE_R8G8B8A8_UNORM;
+            desc.data = data;
+            desc.iPitch = tex_width * tex_bpp;
+            desc.iSlicePitch = 0;
 
-            // set the texture description and create the texture resource
-            D3D11_TEXTURE2D_DESC l_textureDesc;
-            ZeroMemory(&l_textureDesc, sizeof(D3D11_TEXTURE2D_DESC));
-            l_textureDesc.Width = tex_width;
-            l_textureDesc.Height = tex_height;
-            l_textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-            l_textureDesc.MipLevels = 1;
-            l_textureDesc.ArraySize = 1;
-            l_textureDesc.SampleDesc.Count = 1;
-            l_textureDesc.Usage = D3D11_USAGE_DEFAULT;
-            l_textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-            hr = pdx_Device->CreateTexture2D(&l_textureDesc, &mData, &tex->TextureSource);
-            if (FAILED(hr))
-                return;
-
-            // create shader resource view description and then create the view
-            D3D11_SHADER_RESOURCE_VIEW_DESC l_srvDesc;
-            l_srvDesc.Format = l_textureDesc.Format;
-            l_srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            l_srvDesc.Texture2D.MostDetailedMip = 0;
-            l_srvDesc.Texture2D.MipLevels = 1;
-            hr = pdx_Device->CreateShaderResourceView(tex->TextureSource, &l_srvDesc, &tex->Texture);
-            if (FAILED(hr))
-                return;
-
-            // create sampler description and then the sampler state
-            D3D11_SAMPLER_DESC samplerDesc;
-            samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-            samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-            samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-            samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-            samplerDesc.MipLODBias = 0.0f;
-            samplerDesc.MaxAnisotropy = 1;
-            samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-            samplerDesc.BorderColor[0] = 0;
-            samplerDesc.BorderColor[1] = 0;
-            samplerDesc.BorderColor[2] = 0;
-            samplerDesc.BorderColor[3] = 0;
-            samplerDesc.MinLOD = 0;
-            samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-            hr = pdx_Device->CreateSamplerState(&samplerDesc, &tex->SamplerState);
-            if (FAILED(hr))
-                return;
-
-            tex->DrawTexture = true;
+            parentPipeline->textureObject = g_Renderer->CreateTexture(desc);
         }
 
         renderChildren();
     }
 
-} // namespace RS
+    void Texture::renderClean() {
+        /* Get the parent instance pipeline. */
+        RenderPipeline* parentPipeline = Parent->pipeline;
+
+        if (parentPipeline->textureObject != nullptr) {
+            g_Renderer->DestroyTexture(parentPipeline->textureObject);
+            pipeline->textureObject = nullptr;
+        }
+    }
+
+} // namespace rs
 

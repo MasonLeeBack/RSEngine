@@ -102,6 +102,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>LIBRARY_EXPORTS;_USE_FBX_SDK_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>RSEngine.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>DXGI.lib;D3DCompiler.lib;d3d11.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -163,18 +166,23 @@
     <ClCompile Include="Input\RareInput.cpp" />
     <ClCompile Include="Parser\RareParser.cpp" />
     <ClCompile Include="Parser\tinyxml\tinyxml2.cpp" />
-    <ClCompile Include="Render\ImGui\imgui.cpp" />
-    <ClCompile Include="Render\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="Render\ImGui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="Render\ImGui\imgui_impl_win32.cpp" />
-    <ClCompile Include="Render\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="Render\LoadModel_FBX.cpp" />
-    <ClCompile Include="Render\LoadModel_OBJ.cpp" />
-    <ClCompile Include="Render\RSRenderGui.cpp" />
-    <ClCompile Include="Render\RSCreateTexture.cpp" />
-    <ClCompile Include="Render\RSGeometryGenerator.cpp" />
-    <ClCompile Include="Render\RSLoadShader.cpp" />
-    <ClCompile Include="Render\stb_image.cpp" />
+    <ClCompile Include="Render\D3D11\RSD3D11_Buffer.cpp" />
+    <ClCompile Include="Render\D3D11\RSD3D11.cpp" />
+    <ClCompile Include="Render\D3D11\RSD3D11_Shader.cpp" />
+    <ClCompile Include="Render\D3D11\RSD3D11_Texture.cpp" />
+    <ClCompile Include="Render\D3D11\RSD3D11_TypeConv.cpp" />
+    <ClCompile Include="Render\RSRender_Buffer.cpp" />
+    <ClCompile Include="Render\RSRender_EditorView.cpp" />
+    <ClCompile Include="Render\RSRender_Shader.cpp" />
+    <ClCompile Include="Render\RSRender_Texture.cpp" />
+    <ClCompile Include="Utils\RSEngine_RenderPipeline.cpp" />
+    <ClCompile Include="Render\ThirdParty\ImGui\imgui.cpp" />
+    <ClCompile Include="Render\ThirdParty\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Render\ThirdParty\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Render\ThirdParty\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Render\ThirdParty\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Utils\RSEngine_GeometryGenerator.cpp" />
+    <ClCompile Include="Render\ThirdParty\stb_image.cpp" />
     <ClCompile Include="RSEngine.cpp" />
     <ClCompile Include="Render\RSRender.cpp" />
     <ClCompile Include="Types\CoordFrame.cpp" />
@@ -187,6 +195,7 @@
     <ClInclude Include="Include\Classes\Camera.h" />
     <ClInclude Include="Include\Classes\MeshPart.h" />
     <ClInclude Include="Include\Classes\Part.h" />
+    <ClInclude Include="Include\Classes\Skybox.h" />
     <ClInclude Include="Include\Classes\Texture.h" />
     <ClInclude Include="Include\Core\Console.h" />
     <ClInclude Include="Include\Classes\EngineClass.h" />
@@ -212,19 +221,29 @@
     <ClInclude Include="Include\Input\RareInput.h" />
     <ClInclude Include="Include\Parser\RareParser.h" />
     <ClInclude Include="Include\Parser\tinyxml\tinyxml2.h" />
-    <ClInclude Include="Include\Render\ImGui\imconfig.h" />
-    <ClInclude Include="Include\Render\ImGui\imgui.h" />
-    <ClInclude Include="Include\Render\ImGui\imgui_impl_dx11.h" />
-    <ClInclude Include="Include\Render\ImGui\imgui_impl_win32.h" />
-    <ClInclude Include="Include\Render\ImGui\imgui_internal.h" />
-    <ClInclude Include="Include\Render\ImGui\imstb_rectpack.h" />
-    <ClInclude Include="Include\Render\ImGui\imstb_textedit.h" />
-    <ClInclude Include="Include\Render\ImGui\imstb_truetype.h" />
-    <ClInclude Include="Include\Render\LoadModel_FBX.h" />
-    <ClInclude Include="Include\Render\LoadModel_OBJ.h" />
-    <ClInclude Include="Include\Render\RSGeometryGenerator.h" />
-    <ClInclude Include="Include\Render\stb_image.h" />
-    <ClInclude Include="Include\Render\tiny_obj_loader.h" />
+    <ClInclude Include="Include\Render\D3D11\RSD3D11_Texture.h" />
+    <ClInclude Include="Include\Render\D3D11\RSD3D11_TypeConv.h" />
+    <ClInclude Include="Include\Render\RSRender_Buffer.h" />
+    <ClInclude Include="Include\Render\RSRender_EditorView.h" />
+    <ClInclude Include="Include\Render\RSRender_Math.h" />
+    <ClInclude Include="Include\Render\RSRender_Shader.h" />
+    <ClInclude Include="Include\Render\RSRender_Texture.h" />
+    <ClInclude Include="Include\Render\RSRender_Types.h" />
+    <ClInclude Include="Include\Render\D3D11\RSD3D11.h" />
+    <ClInclude Include="Include\Render\D3D11\RSD3D11_Buffer.h" />
+    <ClInclude Include="Include\Render\D3D11\RSD3D11_Shader.h" />
+    <ClInclude Include="Include\Render\D3D11\RSD3D11_Types.h" />
+    <ClInclude Include="Include\Render\ThirdParty\ImGui\imconfig.h" />
+    <ClInclude Include="Include\Render\ThirdParty\ImGui\imgui.h" />
+    <ClInclude Include="Include\Render\ThirdParty\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="Include\Render\ThirdParty\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="Include\Render\ThirdParty\ImGui\imgui_internal.h" />
+    <ClInclude Include="Include\Render\ThirdParty\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Include\Render\ThirdParty\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Include\Render\ThirdParty\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Include\Utils\RSEngine_GeometryGenerator.h" />
+    <ClInclude Include="Include\Render\ThirdParty\stb_image.h" />
+    <ClInclude Include="Include\Render\ThirdParty\tiny_obj_loader.h" />
     <ClInclude Include="Include\RSEngine.h" />
     <ClInclude Include="Include\Render\RSRender.h" />
     <ClInclude Include="Include\RSEngine_BuildMacros.h" />
@@ -232,10 +251,10 @@
     <ClInclude Include="Include\Types\MeshData.h" />
     <ClInclude Include="Include\Types\RareRes.h" />
     <ClInclude Include="Include\Types\RareTypes.h" />
-    <ClInclude Include="Include\Types\RSRenderMath.h" />
-    <ClInclude Include="Include\Types\RSRenderTypes.h" />
     <ClInclude Include="Include\Types\Vector2.h" />
     <ClInclude Include="Include\Types\Vector3.h" />
+    <ClInclude Include="Include\Utils\RSEngine_RenderPipeline.h" />
+    <ClInclude Include="Include\Utils\RSUtils.h" />
     <ClInclude Include="Include\Window\WindowSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

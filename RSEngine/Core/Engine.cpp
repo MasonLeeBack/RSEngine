@@ -27,13 +27,13 @@ File name: Engine.cpp
 
 #include "RSEngine.h"
 
+
+
 namespace rs {
+    using namespace Render;
+
     RSEngine* g_Engine;
-    bool g_GameActive = true;
-
-    std::shared_ptr<Part> Character;
-
-    std::shared_ptr<Engine> LIBRARY_API eng;
+    std::shared_ptr<Engine> eng;
 
     bool RSEngine::Init() {
         // Engine instance is initialized here.
@@ -49,7 +49,7 @@ namespace rs {
             return false;
         }
 
-        g_Renderer = new Render;
+        g_Renderer = new RSRender;
         if (!g_Renderer->Initialize()) {
             return false;
         }
@@ -103,7 +103,7 @@ namespace rs {
                 g_GameLib->Update();
                 eng->tick();
                 g_Input->Update();
-                g_Renderer->RenderScene();
+                g_Renderer->Update();
             }
         }
 

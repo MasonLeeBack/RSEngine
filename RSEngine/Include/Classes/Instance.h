@@ -75,8 +75,9 @@ namespace rs {
         virtual std::vector<std::shared_ptr<Instance>> GetChildren();
         virtual void ClearAllChildren(); /* Recursively removes all children */
 
-        RenderPipeline *pipeline = nullptr;
+        Utils::RenderPipeline *pipeline = nullptr;
         virtual void render();
+        virtual void renderClean();
         virtual void renderChildren();
 
         virtual void tick(); /* called every frame */

@@ -40,6 +40,8 @@ namespace rs {
 
         float FieldOfView = 90.0f;
 
+        void render() override;
+
         Vector2 ViewportSize; // Automatically written by the engine
     };
 
