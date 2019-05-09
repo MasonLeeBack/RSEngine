@@ -1,6 +1,7 @@
 /.vs
 /x64/
 /RSEngine/x64
+/shaders/x64
 /Debug/
 /RSEngine/Debug
 /Release/
