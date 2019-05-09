@@ -22,7 +22,9 @@ namespace rs::Render {
             return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
         case RS_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP:
             return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
-        }
+        }   
+
+        return D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
     }
 
 

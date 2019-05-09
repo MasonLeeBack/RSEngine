@@ -10,16 +10,6 @@ File name: RSD3D11.cpp
 #include <RSEngine.h>
 
 namespace rs::Render {
-    ID3D11Device* g_Device;
-    ID3D11DeviceContext* g_DeviceContext;
-
-    IDXGISwapChain* g_SwapChain;
-
-    ID3D11RenderTargetView* g_RenderTarget = nullptr;
-
-    ID3D11Texture2D* g_DepthStencilTexture = nullptr;
-    ID3D11DepthStencilView* g_DepthStencil = nullptr;
-
     bool RSD3D11::Initialize() {
         HRESULT hr;
 
@@ -56,10 +46,10 @@ namespace rs::Render {
             NULL,
             D3D11_SDK_VERSION,
             &SwapChainDesc,
-            &g_SwapChain,
-            &g_Device,
+            &l_SwapChain,
+            &l_Device,
             NULL,
-            &g_DeviceContext
+            &l_DeviceContext
             );
         if (FAILED(hr)) {
             RSThrowError(L"Failed to intialize DirectX.");
@@ -77,17 +67,17 @@ namespace rs::Render {
         viewport.MinDepth = 0;
         viewport.MaxDepth = 1;
 
-        g_DeviceContext->RSSetViewports(1, &viewport);
+        l_DeviceContext->RSSetViewports(1, &viewport);
 
         ID3D11Texture2D* BackBuffer;
-        hr = g_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&BackBuffer);
+        hr = l_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&BackBuffer);
         if (FAILED(hr)) {
             RSThrowError(L"Failed to call l_SwapChain->GetBuffer()!");
             return false;
         }
 
         /* Create a render target view for the backbuffer. */
-        hr = g_Device->CreateRenderTargetView(BackBuffer, NULL, &g_RenderTarget);
+        hr = l_Device->CreateRenderTargetView(BackBuffer, NULL, &l_RenderTarget);
         if (FAILED(hr)) {
             RSThrowError(L"Failed to call l_Device->CreateRenderTargetView()!");
             return false;
@@ -107,17 +97,17 @@ namespace rs::Render {
         DepthStencilDesc.CPUAccessFlags = 0;
         DepthStencilDesc.MiscFlags = 0;
 
-        g_Device->CreateTexture2D(&DepthStencilDesc, NULL, &g_DepthStencilTexture);
-        g_Device->CreateDepthStencilView(g_DepthStencilTexture, NULL, &g_DepthStencil);
+        l_Device->CreateTexture2D(&DepthStencilDesc, NULL, &l_DepthStencilTexture);
+        l_Device->CreateDepthStencilView(l_DepthStencilTexture, NULL, &l_DepthStencil);
 
-        g_DeviceContext->OMSetRenderTargets(1, &g_RenderTarget, g_DepthStencil);
+        l_DeviceContext->OMSetRenderTargets(1, &l_RenderTarget, l_DepthStencil);
 
         /* Initialize IMGUI. */
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
         ImGui_ImplWin32_Init(g_hWnd);
-        ImGui_ImplDX11_Init(g_Device, g_DeviceContext);
+        ImGui_ImplDX11_Init(l_Device, l_DeviceContext);
 
         /* Destroy the backbuffer object. */
         BackBuffer->Release();
@@ -138,12 +128,12 @@ namespace rs::Render {
     }
 
     void RSD3D11::Shutdown() {
-        g_Device->Release();
-        g_DeviceContext->Release();
-        g_SwapChain->Release();
-        g_DepthStencilTexture->Release();
-        g_DepthStencil->Release();
-        g_RenderTarget->Release();
+        l_Device->Release();
+        l_DeviceContext->Release();
+        l_SwapChain->Release();
+        l_DepthStencilTexture->Release();
+        l_DepthStencil->Release();
+        l_RenderTarget->Release();
 
         ImGui_ImplDX11_Shutdown();
         ImGui_ImplWin32_Shutdown();
@@ -157,11 +147,11 @@ namespace rs::Render {
     }
 
     void RSD3D11::ClearRenderTarget(float color[4]) {
-        g_DeviceContext->ClearRenderTargetView(g_RenderTarget, color);
+        l_DeviceContext->ClearRenderTargetView(l_RenderTarget, color);
     }
 
     void RSD3D11::ClearDepthStencil() {
-        g_DeviceContext->ClearDepthStencilView(g_DepthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+        l_DeviceContext->ClearDepthStencilView(l_DepthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     }
 
     RSRender_Texture* RSD3D11::CreateTexture(const RSTextureDesc& desc) {
@@ -187,19 +177,19 @@ namespace rs::Render {
     void RSD3D11::SetShaderResource(RSShaderStage stage, RSShaderResourceView srv) {
         switch (stage) {
         case RS_SHADER_STAGE_VS:
-            g_DeviceContext->VSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
+            l_DeviceContext->VSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
             break;
         case RS_SHADER_STAGE_DS:
-            g_DeviceContext->DSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
+            l_DeviceContext->DSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
             break;
         case RS_SHADER_STAGE_GS:
-            g_DeviceContext->GSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
+            l_DeviceContext->GSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
             break;
         case RS_SHADER_STAGE_HS:
-            g_DeviceContext->HSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
+            l_DeviceContext->HSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
             break;
         case RS_SHADER_STAGE_PS:
-            g_DeviceContext->PSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
+            l_DeviceContext->PSSetShaderResources(0, 1, (ID3D11ShaderResourceView* const*)srv);
             break;
         default:
             break;
@@ -213,7 +203,29 @@ namespace rs::Render {
     }
 
     RSRender_Shader* RSD3D11::CreateShaderFromFile(RSShaderStage stage, const char* fileName) {
-        return nullptr;
+        
+        std::ifstream shaderStream;
+
+        RSShaderDesc desc;
+        desc.stage = stage;
+        
+        shaderStream.open(fileName, std::ifstream::in | std::ifstream::binary);
+        if (shaderStream.good())
+        {
+            shaderStream.seekg(0, std::ios::end);
+            desc.shader_size = size_t(shaderStream.tellg());
+            desc.shader_data = new char[desc.shader_size];
+            shaderStream.seekg(0, std::ios::beg);
+            shaderStream.read(&desc.shader_data[0], desc.shader_size);
+            shaderStream.close();
+        }
+        else {
+            std::runtime_error("Failed to create shader...");
+        }
+        
+        RSD3D11_Shader* shader = new RSD3D11_Shader(desc);
+
+        return shader;
     }
 
     RSRender_Shader* RSD3D11::CreateShaderFromBlob(RSShaderStage stage, void* shaderBlob) {
@@ -221,22 +233,37 @@ namespace rs::Render {
     }
 
     void RSD3D11::DestroyShader(RSRender_Shader* shader) {
+        delete shader;
+        shader = nullptr;
     }
 
     void RSD3D11::SetShader(RSRender_Shader* shader) {
+        RSShaderStage stage = shader->getStage();
+        ID3D11ClassInstance* const* classInstance = nullptr;
+        
+        RSShader l_Shader = shader->getShader();
+
+        switch (stage) {
+        case RS_SHADER_STAGE_VS:
+            l_DeviceContext->VSSetShader((ID3D11VertexShader*)l_Shader, classInstance, NULL);
+            break;
+        case RS_SHADER_STAGE_PS:
+            l_DeviceContext->PSSetShader((ID3D11PixelShader*)l_Shader, classInstance, NULL);
+            break;
+        }
     }
 
     void RSD3D11::SetVertexBuffer(RSRender_Buffer* buf) {
         RSBufferDesc desc = buf->getDescription();
         if (desc.id == RS_VERTEX_BUFFER) {
-            g_DeviceContext->IASetVertexBuffers(0, 1, (ID3D11Buffer* const*)buf->getBuffer(), &desc.uStride, &desc.uOffset);
+            l_DeviceContext->IASetVertexBuffers(0, 1, (ID3D11Buffer* const*)buf->getBuffer(), &desc.uStride, &desc.uOffset);
         }
     }
 
     void RSD3D11::SetIndexBuffer(RSRender_Buffer* buf) {
         RSBufferDesc desc = buf->getDescription();
         if (desc.id == RS_INDEX_BUFFER) {
-            g_DeviceContext->IASetIndexBuffer(((ID3D11Buffer*)buf->getBuffer()), DXGI_FORMAT_R32_UINT, 0);
+            l_DeviceContext->IASetIndexBuffer(((ID3D11Buffer*)buf->getBuffer()), DXGI_FORMAT_R32_UINT, 0);
         }
     }
 
@@ -244,29 +271,29 @@ namespace rs::Render {
     }
 
     void RSD3D11::PresentSwapChain() {
-        g_SwapChain->Present(0, 0);
+        l_SwapChain->Present(0, 0);
     }
 
     void RSD3D11::Draw(unsigned int vertexCount, RSPrimitiveTopology topology) {
         D3D11_PRIMITIVE_TOPOLOGY l_Topology = conv.getTopology(topology);
-        g_DeviceContext->IASetPrimitiveTopology(l_Topology);
+        l_DeviceContext->IASetPrimitiveTopology(l_Topology);
 
-        g_DeviceContext->Draw(vertexCount, 0);
+        l_DeviceContext->Draw(vertexCount, 0);
     }
 
     void RSD3D11::DrawIndexed(unsigned int indexCount, RSPrimitiveTopology topology) {
         D3D11_PRIMITIVE_TOPOLOGY l_Topology = conv.getTopology(topology);
-        g_DeviceContext->IASetPrimitiveTopology(l_Topology);
+        l_DeviceContext->IASetPrimitiveTopology(l_Topology);
 
-        g_DeviceContext->DrawIndexed(indexCount, 0, 0);
+        l_DeviceContext->DrawIndexed(indexCount, 0, 0);
     }
 
     ID3D11Device* RSD3D11::getDevice() {
-        return g_Device;
+        return l_Device;
     }
 
     ID3D11DeviceContext* RSD3D11::getDeviceContext() {
-        return g_DeviceContext;
+        return l_DeviceContext;
     }
 
 } // namespace rs::Render

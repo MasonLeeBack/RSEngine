@@ -13,11 +13,13 @@ File name: RSRender_Shader.h
 
 namespace rs::Render {
     class RSRender_Shader {
+    public:
         RSRender_Shader();
         RSRender_Shader(const RSShaderDesc& desc);
         ~RSRender_Shader();
 
         virtual RSShaderStage getStage();
+        virtual RSShader getShader();
 
     private:
         RSShaderStage stage;

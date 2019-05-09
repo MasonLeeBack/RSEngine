@@ -10,20 +10,25 @@ File name: RSD3D11_Buffer.cpp
 #include <RSEngine.h>
 
 namespace rs::Render {
-    RSD3D11_Buffer::RSD3D11_Buffer() : buffer(nullptr) {}
+    RSD3D11_Buffer::RSD3D11_Buffer() : l_Buffer(nullptr) {}
     RSD3D11_Buffer::RSD3D11_Buffer(const RSBufferDesc& desc) : description(desc) {
         /* Get D3D11 renderer */
         l_RenderDevice = ((RSD3D11*)g_Renderer->getCurrentRenderer())->getDevice();
     }
 
     RSD3D11_Buffer::~RSD3D11_Buffer() {
-        if ((ID3D11Buffer*)buffer)
-            ((ID3D11Buffer*)buffer)->Release();
+        if (l_Buffer)
+            l_Buffer->Release();
     }
 
     void RSD3D11_Buffer::SetBuffer(void* data) {
         if (description.id == RS_UNSET_BUFFER)
             return;
+
+        if (buffer != nullptr) {
+            UpdateBuffer(data);
+            return;
+        }
 
         D3D11_BUFFER_DESC bufferDesc;
         ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
@@ -37,15 +42,19 @@ namespace rs::Render {
         subData.pSysMem = data;
 
         /* Create the buffer. */
-        ID3D11Buffer* tempBuf;
-        l_RenderDevice->CreateBuffer(&bufferDesc, &subData, &tempBuf);
-
-        /* Assign the buffer to the private data object. */
-        buffer = tempBuf;
+        l_RenderDevice->CreateBuffer(&bufferDesc, &subData, &l_Buffer);
     }
 
     void RSD3D11_Buffer::UpdateBuffer(void* data) {
 
+    }
+
+    void* RSD3D11_Buffer::getBuffer() {
+        return l_Buffer;
+    }
+
+    RSBufferDesc RSD3D11_Buffer::getDescription() {
+        return description;
     }
 
 } // namespace rs::Render

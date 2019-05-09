@@ -17,6 +17,7 @@ namespace rs::Render {
     using RSShaderSamplerState = void*;
     using RSShaderResourceView = void*;
     using RSRenderTargetView = void*;
+    using RSShader = void*;
 
     enum RSPrimitiveTopology {
         RS_PRIMITIVE_TOPOLOGY_POINTLIST,
@@ -54,6 +55,8 @@ namespace rs::Render {
 
     struct RSShaderDesc {
         RSShaderStage stage;
+        char* shader_data;
+        size_t shader_size;
     };
 
     enum RSImageType {

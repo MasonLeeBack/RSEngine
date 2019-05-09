@@ -24,14 +24,18 @@ namespace rs::Utils {
         g_Renderer->SetVertexBuffer(vertexBuffer);
         g_Renderer->SetIndexBuffer(indexBuffer);
 
+        /* Set the vertex shader and pixel shader */
+        g_Renderer->SetShader(vertexShader);
+        g_Renderer->SetShader(pixelShader);
+
         /* Check texture. See if we're texturing this object. */
         if (textureObject != nullptr) {
-            g_Renderer->SetShaderResource(RS_SHADER_STAGE_PS, textureObject->getShaderResourceView());
-            g_Renderer->SetShaderSampler(RS_SHADER_STAGE_PS, textureObject->getShaderSamplerState());
+            //g_Renderer->SetShaderResource(RS_SHADER_STAGE_PS, textureObject->getShaderResourceView());
+            //g_Renderer->SetShaderSampler(RS_SHADER_STAGE_PS, textureObject->getShaderSamplerState());
         }
         else {
-            g_Renderer->SetShaderResource(RS_SHADER_STAGE_PS, nullptr);
-            g_Renderer->SetShaderSampler(RS_SHADER_STAGE_PS, nullptr);
+            //g_Renderer->SetShaderResource(RS_SHADER_STAGE_PS, nullptr);
+            //g_Renderer->SetShaderSampler(RS_SHADER_STAGE_PS, nullptr);
         }
 
 

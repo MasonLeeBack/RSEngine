@@ -18,14 +18,15 @@ namespace rs::Render {
         RSRender_Buffer(const RSBufferDesc& desc);
         ~RSRender_Buffer();
 
-        void SetBuffer(void* data);
-        void UpdateBuffer(void* data);
+        virtual void SetBuffer(void* data);
+        virtual void UpdateBuffer(void* data);
 
-        void* getBuffer();
-        RSBufferDesc getDescription();
+        virtual void* getBuffer();
+        virtual RSBufferDesc getDescription();
+
     protected:
         RSBufferDesc description;
-        void* buffer;
+        void* buffer = nullptr;
     };
 
 } // namespace rs::Render

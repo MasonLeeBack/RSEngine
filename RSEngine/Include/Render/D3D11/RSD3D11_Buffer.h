@@ -18,12 +18,15 @@ namespace rs::Render {
         RSD3D11_Buffer(const RSBufferDesc& desc);
         ~RSD3D11_Buffer();
 
-        void SetBuffer(void* data);
-        void UpdateBuffer(void* data);
+        void SetBuffer(void* data) override;
+        void UpdateBuffer(void* data) override;
+            
+        void* getBuffer() override;
+        RSBufferDesc getDescription() override;
 
     protected:
         RSBufferDesc description;
-        void* buffer;
+        ID3D11Buffer* l_Buffer;
         
         ID3D11Device* l_RenderDevice;
     };

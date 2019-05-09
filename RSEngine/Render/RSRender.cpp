@@ -48,7 +48,7 @@ namespace rs::Render {
 
         g_CurrentRenderer->Update();
 
-        //eng->render();
+        eng->render();
         
         g_CurrentRenderer->PresentSwapChain();
     }
