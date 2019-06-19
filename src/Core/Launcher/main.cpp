@@ -6,7 +6,7 @@ typedef int(*LauncherMain_t)(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    HINSTANCE launcher = LoadLibrary("Engine.dll"); // STEAM OK ... filesystem not mounted yet
+    HINSTANCE launcher = LoadLibrary("Engine.dll");
     if (!launcher)
     {
         MessageBox(NULL, "Failed to load Engine DLL", "Error!", MB_OK);
