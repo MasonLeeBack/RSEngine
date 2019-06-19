@@ -35,11 +35,11 @@ File name: PolyEngine.cpp
 using namespace rs;
 
 #ifdef _WIN32
-INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT iCmdShow) {
+extern "C" _declspec(dllexport) INT LauncherMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT iCmdShow) {
     g_hInstance = hInstance;
     g_iCmdShow = iCmdShow;
     g_CommandLine = lpCmdLine;
-    
+
     // Initialization
     INT xRes = GetPrivateProfileIntA("RSEngine", "ScreenResolution_X", 1920, "Engine.ini");
     INT yRes = GetPrivateProfileIntA("RSEngine", "ScreenResolution_Y", 1080, "Engine.ini");

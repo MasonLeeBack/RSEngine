@@ -37,8 +37,9 @@ File name: Engine.cpp
 #include <Windows.h>
 #endif
 
+rs::Render::RSRender* g_Renderer;
+
 namespace rs {
-    using namespace Render;
 
     RSEngine* g_Engine;
     std::shared_ptr<Engine> eng;
@@ -57,7 +58,7 @@ namespace rs {
             return false;
         }
 
-        g_Renderer = new RSRender;
+        g_Renderer = new rs::Render::RSRender;
         if (!g_Renderer->Initialize()) {
             return false;
         }

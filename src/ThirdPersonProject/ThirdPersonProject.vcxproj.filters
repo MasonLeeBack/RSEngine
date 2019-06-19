@@ -15,21 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="RSMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rpf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rpf_crypto.cpp">
+    <ClCompile Include="Entities\Character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rpf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rpf_crypto.h">
+    <ClInclude Include="Entities\Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

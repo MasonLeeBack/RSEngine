@@ -33,6 +33,8 @@ File name: RSD3D11.h
 #include "RSD3D11_Shader.h"
 #include "RSD3D11_Texture.h"
 
+extern RENDERAPI HWND renderHwnd;
+
 namespace rs::Render {
     class RSD3D11 : public RSRender {
     public:

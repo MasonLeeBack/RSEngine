@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug-D3D11|x64">
@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{F8FADCC2-BCC8-4EDB-8E92-7770A65ED5AE}</ProjectGuid>
-    <RootNamespace>rarepack</RootNamespace>
+    <ProjectGuid>{0E7F247C-C06A-4016-A47E-F43F1F41419B}</ProjectGuid>
+    <RootNamespace>editor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -30,7 +30,6 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
-    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -38,7 +37,6 @@
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -46,11 +44,9 @@
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
     <PlatformToolset>v141</PlatformToolset>
-    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -68,20 +64,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
-    <OutDir>$(RSEngine_Root)\out\tools\$(Platform)-$(Configuration)\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
-    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
-    <OutDir>$(RSEngine_Root)\out\tools\$(Platform)-$(Configuration)\</OutDir>
+    <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
-    <OutDir>$(RSEngine_Root)\out\tools\$(Platform)-$(Configuration)\</OutDir>
+    <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'">
-    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
-    <OutDir>$(RSEngine_Root)\out\tools\$(Platform)-$(Configuration)\</OutDir>
+    <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -89,7 +78,6 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -100,7 +88,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -115,26 +102,31 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
-    <ClCompile>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="rpf.cpp" />
-    <ClCompile Include="rpf_crypto.cpp" />
+    <ClInclude Include="Include\EdAssetExplorer.h" />
+    <ClInclude Include="Include\EdConsole.h" />
+    <ClInclude Include="Include\EdInstanceProperties.h" />
+    <ClInclude Include="Include\EdInstanceView.h" />
+    <ClInclude Include="Include\Editor.h" />
+    <ClInclude Include="Include\EditorComponent.h" />
+    <ClInclude Include="Include\EditorStyle.h" />
+    <ClInclude Include="Include\EdUtilities.h" />
+    <ClInclude Include="Include\EdViewport.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rpf.h" />
-    <ClInclude Include="rpf_crypto.h" />
+    <ClCompile Include="EdAssetExplorer.cpp" />
+    <ClCompile Include="EdConsole.cpp" />
+    <ClCompile Include="EdInstanceProperties.cpp" />
+    <ClCompile Include="EdInstanceView.cpp" />
+    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="EditorComponent.cpp" />
+    <ClCompile Include="EdViewport.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -57,6 +57,8 @@ Notes: This class should not (and can not) be initialized from itself
     static std::shared_ptr<ClassName> newInstance(std::shared_ptr<Instance> inParent); \
     virtual std::string getClassName() override;
 
+#define public_entity std::shared_ptr
+
 namespace rs {
     class Instance : public std::enable_shared_from_this<Instance> {
     public:

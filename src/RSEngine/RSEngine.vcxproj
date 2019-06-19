@@ -1,21 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug-D3D11|ORBIS">
+      <Configuration>Debug-D3D11</Configuration>
+      <Platform>ORBIS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-D3D11|x64">
+      <Configuration>Debug-D3D11</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|ORBIS">
       <Configuration>Debug</Configuration>
       <Platform>ORBIS</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
+    <ProjectConfiguration Include="Release-D3D11|ORBIS">
+      <Configuration>Release-D3D11</Configuration>
+      <Platform>ORBIS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-D3D11|x64">
+      <Configuration>Release-D3D11</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|ORBIS">
       <Configuration>Release</Configuration>
       <Platform>ORBIS</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -31,24 +39,11 @@
     <ProjectGuid>{12FB0792-D7B8-4FD5-BE5F-FD1715F9C785}</ProjectGuid>
     <RootNamespace>RSEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>RSEngine</ProjectName>
+    <ProjectName>Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -61,10 +56,18 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
@@ -75,16 +78,23 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|ORBIS'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|ORBIS'">
+    <PlatformToolset>Clang</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -95,15 +105,21 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ORBIS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|ORBIS'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
-    <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)</OutDir>
-    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)</IntDir>
+    <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">
     <LibraryPath>$(SCE_ORBIS_SDK_DIR)\target\lib;$(LibraryPath)</LibraryPath>
@@ -114,8 +130,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
-    <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)</OutDir>
-    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)</IntDir>
+    <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'">
+    <LibraryPath>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
+    <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ORBIS'">
     <LibraryPath>$(SCE_ORBIS_SDK_DIR)\target\lib;$(LibraryPath)</LibraryPath>
@@ -123,24 +145,16 @@
     <OutDir>$(RSEngine_Root)\out\RSEngine\$(Platform)-$(Configuration)</OutDir>
     <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)$(ProjectName)\Include;$(SolutionDir)thirdparty\vulkan\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)thirdparty\vulkan\Lib;$(LibraryPath)</LibraryPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|ORBIS'">
+    <LibraryPath>$(SCE_ORBIS_SDK_DIR)\target\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
+    <OutDir>$(RSEngine_Root)\out\RSEngine\$(Platform)-$(Configuration)</OutDir>
+    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)$(ProjectName)\Include;$(SolutionDir)thirdparty\vulkan\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)thirdparty\vulkan\Lib;$(LibraryPath)</LibraryPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
+    <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>win32isnotsupported.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -170,20 +184,6 @@
       <AdditionalDependencies>libScePad_stub_weak.a;libSceGnm_debug.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>win32isnotsupported.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -199,6 +199,23 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>DXGI.lib;D3DCompiler.lib;d3d11.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>USERENDERAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Renderer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ORBIS'">
@@ -217,6 +234,27 @@
       <AdditionalDependencies>libScePad_stub_weak.a;libSceGnm.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|ORBIS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_ORBIS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>libScePad_stub_weak.a;libSceGnm.a;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>USERENDERAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Classes\BasePart.cpp" />
     <ClCompile Include="Classes\Camera.cpp" />
@@ -229,6 +267,7 @@
     <ClCompile Include="Classes\Instance.cpp" />
     <ClCompile Include="Core\Clipboard.cpp" />
     <ClCompile Include="Core\Config.cpp" />
+    <ClCompile Include="Core\Error.cpp" />
     <ClCompile Include="Core\Filesystem.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\GameLib.cpp" />
@@ -237,32 +276,13 @@
     <ClCompile Include="Input\RareInput.cpp" />
     <ClCompile Include="Parser\RareParser.cpp" />
     <ClCompile Include="Parser\tinyxml\tinyxml2.cpp" />
-    <ClCompile Include="Render\D3D11\RSD3D11_Buffer.cpp" />
-    <ClCompile Include="Render\D3D11\RSD3D11.cpp" />
-    <ClCompile Include="Render\D3D11\RSD3D11_Shader.cpp" />
-    <ClCompile Include="Render\D3D11\RSD3D11_Texture.cpp" />
-    <ClCompile Include="Render\D3D11\RSD3D11_TypeConv.cpp" />
-    <ClCompile Include="Render\D3D12\RSD3D12.cpp" />
-    <ClCompile Include="Render\GNM\RSGNM.cpp" />
-    <ClCompile Include="Render\OpenGL\RSOpenGL.cpp" />
-    <ClCompile Include="Render\RSRender_Buffer.cpp" />
-    <ClCompile Include="Render\RSRender_EditorView.cpp" />
-    <ClCompile Include="Render\RSRender_Shader.cpp" />
-    <ClCompile Include="Render\RSRender_Texture.cpp" />
-    <ClCompile Include="Render\ThirdParty\ImGui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="Render\ThirdParty\ImGui\imgui_impl_win32.cpp" />
-    <ClCompile Include="Render\Vulkan\RSVulkan.cpp" />
     <ClCompile Include="Utils\RSEngine_RenderPipeline.cpp" />
-    <ClCompile Include="Render\ThirdParty\ImGui\imgui.cpp" />
-    <ClCompile Include="Render\ThirdParty\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="Render\ThirdParty\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Utils\RSEngine_GeometryGenerator.cpp" />
-    <ClCompile Include="Render\ThirdParty\stb_image.cpp" />
     <ClCompile Include="RSEngine.cpp" />
-    <ClCompile Include="Render\RSRender.cpp" />
     <ClCompile Include="Types\Vector2.cpp" />
     <ClCompile Include="Types\Vector3.cpp" />
     <ClCompile Include="Utils\RSEngine_RichPresence.cpp" />
+    <ClCompile Include="Utils\stb_image.cpp" />
     <ClCompile Include="Window\WindowSystem.cpp" />
   </ItemGroup>
   <ItemGroup>

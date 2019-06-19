@@ -29,9 +29,19 @@ File name: RSRender.h
 #ifndef _RSRender_h_
 #define _RSRender_h_
 
+#ifdef USERENDERAPI
+#ifdef  PROJECTLIBRARY_EXPORTS 
+#define RENDERAPI __declspec(dllexport)
+#else
+#define RENDERAPI __declspec(dllimport)
+#endif
+#else
+#define RENDERAPI
+#endif
+
 #include <map>
 
-#include <Render/ThirdParty/stb_image.h>
+#include <Utils/ThirdParty/stb_image.h>
 
 #include "RSRender_Types.h"
 #include "RSRender_Math.h"
@@ -40,12 +50,15 @@ File name: RSRender.h
 #include "RSRender_Texture.h"
 #include "RSRender_EditorView.h"
 
+extern RENDERAPI float renderResX;
+extern RENDERAPI float renderResY;
+
 namespace rs::Render {
 
     typedef std::map<const char*, RSRender_Shader*> RSShaderMap;
     extern RSShaderMap shaderMap;
 
-    class RSRender {
+    class RENDERAPI RSRender {
     public:
         virtual bool Initialize();
         virtual void Update();
@@ -85,8 +98,10 @@ namespace rs::Render {
 
     };
 
-    extern RSRender* g_Renderer;
+    extern RSRender* g_CurrentRenderer;
 
 } // namespace rs::Render
+
+extern rs::Render::RSRender* g_Renderer;
 
 #endif // _RSRender_h_

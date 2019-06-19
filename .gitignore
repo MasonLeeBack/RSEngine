@@ -12,6 +12,4 @@ RSEngine.VC.db
 imgui.ini
 RSEngine.exe
 
-/out/RSEngine/
-/out/tools/
-/out/intermediate/
+/out/*

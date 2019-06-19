@@ -29,7 +29,9 @@ File name: WindowSystem.cpp
 #include <Windows.h>
 #include <Window/WindowSystem.h>
 
-extern LRESULT  ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#include <Render/D3D11/RSD3D11.h>
+
+LRESULT RENDERAPI ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace rs {
 
@@ -106,6 +108,10 @@ namespace rs {
 
         ShowWindow(g_hWnd, g_iCmdShow);
         UpdateWindow(g_hWnd);
+
+        renderResX = static_cast<float>(g_resX);
+        renderResY = static_cast<float>(g_resY);
+        renderHwnd = g_hWnd;
 
         return true;
     }
