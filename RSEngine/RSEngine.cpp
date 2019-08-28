@@ -35,8 +35,8 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     g_CommandLine = lpCmdLine;
     
     // Initialization
-    INT xRes = GetPrivateProfileIntA("RSEngine", "ScreenResolution_X", 1920, "Engine.ini");
-    INT yRes = GetPrivateProfileIntA("RSEngine", "ScreenResolution_Y", 1080, "Engine.ini");
+    INT xRes = GetPrivateProfileIntA("RSEngine", "ScreenResolution_X", 1280, "Engine.ini");
+    INT yRes = GetPrivateProfileIntA("RSEngine", "ScreenResolution_Y", 720, "Engine.ini");
     
     Window windowManager;
     if (!windowManager.Init(xRes, yRes)) {
