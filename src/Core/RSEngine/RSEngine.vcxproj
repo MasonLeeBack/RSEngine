@@ -1,22 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug-D3D11|ORBIS">
-      <Configuration>Debug-D3D11</Configuration>
-      <Platform>ORBIS</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug-D3D11|x64">
-      <Configuration>Debug-D3D11</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug-VK|ORBIS">
-      <Configuration>Debug-VK</Configuration>
-      <Platform>ORBIS</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug-VK|x64">
-      <Configuration>Debug-VK</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug-Vulkan|ORBIS">
       <Configuration>Debug-Vulkan</Configuration>
       <Platform>ORBIS</Platform>
@@ -28,14 +12,6 @@
     <ProjectConfiguration Include="Debug|ORBIS">
       <Configuration>Debug</Configuration>
       <Platform>ORBIS</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release-D3D11|ORBIS">
-      <Configuration>Release-D3D11</Configuration>
-      <Platform>ORBIS</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release-D3D11|x64">
-      <Configuration>Release-D3D11</Configuration>
-      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release-Vulkan|ORBIS">
       <Configuration>Release-Vulkan</Configuration>
@@ -87,14 +63,6 @@
     <CharacterSet>Unicode</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <SpectreMitigation>false</SpectreMitigation>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ORBIS'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -102,21 +70,14 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|ORBIS'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|ORBIS'">
-    <PlatformToolset>Clang</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
-    <PlatformToolset>v142</PlatformToolset>
-    <SpectreMitigation>false</SpectreMitigation>
-    <CharacterSet>Unicode</CharacterSet>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug-Vulkan|x64'">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release-Vulkan|x64'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -132,13 +93,7 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ORBIS'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|ORBIS'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -160,25 +115,19 @@
     <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'">
-    <LibraryPath>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
-    <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)\</OutDir>
-    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ORBIS'">
     <LibraryPath>$(SCE_ORBIS_SDK_DIR)\target\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
     <OutDir>$(RSEngine_Root)\out\RSEngine\$(Platform)-$(Configuration)</OutDir>
     <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|ORBIS'">
-    <LibraryPath>$(SCE_ORBIS_SDK_DIR)\target\lib;$(LibraryPath)</LibraryPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Vulkan|x64'">
+    <LibraryPath>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration);$(LibraryPath)</LibraryPath>
     <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
-    <OutDir>$(RSEngine_Root)\out\RSEngine\$(Platform)-$(Configuration)</OutDir>
-    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)</IntDir>
+    <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Vulkan|x64'">
     <OutDir>$(RSEngine_Root)\out\RSEngine\Windows-$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(RSEngine_Root)\out\intermediate\$(ProjectName)-$(Platform)-$(Configuration)\</IntDir>
     <IncludePath>$(RSEngine_SDK);$(IncludePath)</IncludePath>
@@ -230,23 +179,6 @@
       <AdditionalDependencies>DXGI.lib;D3DCompiler.lib;d3d11.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|x64'">
-    <ClCompile>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>USERENDERAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Renderer.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ORBIS'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -263,28 +195,25 @@
       <AdditionalDependencies>libScePad_stub_weak.a;libSceGnm.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-D3D11|ORBIS'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_ORBIS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-    </ClCompile>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Vulkan|x64'">
     <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libScePad_stub_weak.a;libSceGnm.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Renderer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-D3D11|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>USERENDERAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>USERENDERAPI;ENGINELIBRARY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-Vulkan|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>USERENDERAPI;ENGINELIBRARY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Renderer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Classes\BasePart.cpp" />

@@ -51,7 +51,11 @@ Index of this file:
 // Define attributes of all API symbols declarations (e.g. for DLL under Windows)
 // IMGUI_API is used for core imgui functions, IMGUI_IMPL_API is used for the default bindings files (imgui_impl_xxx.h)
 #ifndef IMGUI_API
-#define IMGUI_API
+#ifdef PROJECTLIBRARY_EXPORTS
+#define  IMGUI_API __declspec( dllexport )
+#else
+#define  IMGUI_API __declspec( dllimport )
+#endif
 #endif
 #ifndef IMGUI_IMPL_API
 #define IMGUI_IMPL_API              IMGUI_API

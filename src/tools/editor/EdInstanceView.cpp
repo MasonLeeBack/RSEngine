@@ -7,7 +7,10 @@ File name: EdInstanceView.cpp
 
 */
 
-#include <RSEngine.h>
+#include "Include/EdInstanceView.h"
+#include <Render/ThirdParty/ImGui/imgui.h>
+#include <Render/RSRender.h>
+#include <Core/Engine.h>
 
 namespace rs {
     namespace Editor {
@@ -22,8 +25,8 @@ namespace rs {
         
         void InstanceView::Draw(bool* p_open) {
             if (ImGui::Begin("Instances", p_open, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse)) {
-                ImGui::SetWindowPos(ImVec2{ (float)g_resX - 300.0f, 26.0f });
-                ImGui::SetWindowSize(ImVec2{ 300.0f, ((float)g_resY / 2) - 26.0f });
+                ImGui::SetWindowPos(ImVec2{ (float)renderResX - 300.0f, 26.0f });
+                ImGui::SetWindowSize(ImVec2{ 300.0f, ((float)renderResY / 2) - 26.0f });
                 IterateInstances(eng);
             }
             ImGui::End();

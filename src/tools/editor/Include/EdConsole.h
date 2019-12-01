@@ -29,6 +29,8 @@ File name: EdConsole.h
 #ifndef _EdConsole_h_
 #define _EdConsole_h_
 
+#include "EditorComponent.h"
+
 namespace rs {
     namespace Editor {
         class EConsole : public EditorComponent {

@@ -50,55 +50,60 @@ File name: RSRender.h
 #include "RSRender_Texture.h"
 #include "RSRender_EditorView.h"
 
-extern RENDERAPI const float renderResX;
-extern RENDERAPI const float renderResY;
+#ifdef _WIN32
+#include <Windows.h>
+extern RENDERAPI HWND renderHwnd;
+#endif
+
+extern RENDERAPI float renderResX;
+extern RENDERAPI float renderResY;
 
 namespace rs::Render {
 
-    typedef std::map<const char*, RSRender_Shader*> RSShaderMap;
-    extern RSShaderMap shaderMap;
+	typedef std::map<const char*, RSRender_Shader*> RSShaderMap;
+	extern RSShaderMap shaderMap;
 
-    class RENDERAPI RSRender {
-    public:
-        virtual bool Initialize();
-        virtual void Update();
-        virtual void Shutdown();
+	class RENDERAPI RSRender {
+	public:
+		virtual bool Initialize();
+		virtual void Update();
+		virtual void Shutdown();
 
-        virtual RSRenderTargetView CreateRenderTarget(RSRender_Texture* texture);
-        virtual void ClearRenderTarget(float color[4]);
+		virtual RSRenderTargetView CreateRenderTarget(RSRender_Texture* texture);
+		virtual void ClearRenderTarget(float color[4]);
 
-        virtual void ClearDepthStencil();
+		virtual void ClearDepthStencil();
 
-        virtual RSRender_Texture* CreateTexture(const RSTextureDesc& desc);
-        virtual void DestroyTexture(RSRender_Texture* texture);
+		virtual RSRender_Texture* CreateTexture(const RSTextureDesc& desc);
+		virtual void DestroyTexture(RSRender_Texture* texture);
 
-        virtual RSRender_Buffer* CreateBuffer(const RSBufferDesc& desc);
-        virtual void DestroyBuffer(RSRender_Buffer* buffer);
+		virtual RSRender_Buffer* CreateBuffer(const RSBufferDesc& desc);
+		virtual void DestroyBuffer(RSRender_Buffer* buffer);
 
-        virtual void SetShaderResource(RSShaderStage stage, RSShaderResourceView srv);
-        virtual void SetShaderSampler(RSShaderStage stage, RSShaderSamplerState sss);
+		virtual void SetShaderResource(RSShaderStage stage, RSShaderResourceView srv);
+		virtual void SetShaderSampler(RSShaderStage stage, RSShaderSamplerState sss);
 
-        virtual RSRender_Shader* CreateShaderFromFile(RSShaderStage stage, const char* fileName);
-        virtual RSRender_Shader* CreateShaderFromBlob(RSShaderStage stage, void* shaderBlob);
-        virtual void DestroyShader(RSRender_Shader* shader);
+		virtual RSRender_Shader* CreateShaderFromFile(RSShaderStage stage, const char* fileName);
+		virtual RSRender_Shader* CreateShaderFromBlob(RSShaderStage stage, void* shaderBlob);
+		virtual void DestroyShader(RSRender_Shader* shader);
 
-        virtual void SetShader(RSRender_Shader* shader);
+		virtual void SetShader(RSRender_Shader* shader);
 
-        virtual void SetVertexBuffer(RSRender_Buffer* buf);
-        virtual void SetIndexBuffer(RSRender_Buffer* buf);
+		virtual void SetVertexBuffer(RSRender_Buffer* buf);
+		virtual void SetIndexBuffer(RSRender_Buffer* buf);
 
-        virtual void UpdateResolution(bool bIsEditor, float width, float height);
+		virtual void UpdateResolution(bool bIsEditor, float width, float height);
 
-        virtual void PresentSwapChain();
+		virtual void PresentSwapChain();
 
-        virtual void Draw(unsigned int vertexCount, RSPrimitiveTopology topology);
-        virtual void DrawIndexed(unsigned int indexCount, RSPrimitiveTopology topology);
+		virtual void Draw(unsigned int vertexCount, RSPrimitiveTopology topology);
+		virtual void DrawIndexed(unsigned int indexCount, RSPrimitiveTopology topology);
 
-        virtual RSRender* getCurrentRenderer();
+		virtual RSRender* getCurrentRenderer();
 
-    };
+	};
 
-    extern RSRender* g_CurrentRenderer;
+	extern RSRender* g_CurrentRenderer;
 
 } // namespace rs::Render
 

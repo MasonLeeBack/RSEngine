@@ -37,7 +37,11 @@ namespace rs {
 
     };
 
-    extern std::shared_ptr<Engine> eng;
+#ifdef ENGINELIBRARY_EXPORTS
+	extern __declspec(dllexport) std::shared_ptr<Engine> eng;
+#else
+	extern __declspec(dllimport) std::shared_ptr<Engine> eng;
+#endif
 
     #define NewInstance(name, type) std::shared_ptr<type> name = type::newInstance(eng);
 

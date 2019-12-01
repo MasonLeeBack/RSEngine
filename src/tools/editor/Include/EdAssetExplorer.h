@@ -29,6 +29,8 @@ File name: EdAssetExplorer.h
 #ifndef _EdAssetExplorer_h_
 #define _EdAssetExplorer_h_
 
+#include "EditorComponent.h"
+
 namespace rs {
     namespace Editor {
         class AssetExplorer : public EditorComponent {

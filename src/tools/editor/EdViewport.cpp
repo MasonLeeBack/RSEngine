@@ -7,8 +7,10 @@ File name: EdViewport.cpp
 
 */
 
-#include <RSEngine.h>
-
+#include "Include/EdViewport.h"
+#include <Render/ThirdParty/ImGui/imgui.h>
+#include <Render/RSRender.h>
+#include <Core/Engine.h>
 
 namespace rs {
     namespace Editor {
@@ -17,7 +19,7 @@ namespace rs {
             ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
             if (ImGui::Begin("Level (TestLevel)", p_open, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse)) {
                 ImGui::SetWindowPos(ImVec2{ 300.0f, 26.0f });
-                ImGui::SetWindowSize(ImVec2{ (float)g_resX - 600.0f, (float)g_resY - 226.0f });
+                ImGui::SetWindowSize(ImVec2{ (float)renderResX - 600.0f, (float)renderResY - 226.0f });
 
                 //
                 // Set the viewport resolution to the window size

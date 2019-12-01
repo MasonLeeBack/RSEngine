@@ -9,10 +9,18 @@ File name: Editor.cpp
 
 #include <vector>
 
-#include <Render/ThirdParty/ImGui/imgui.h>
-
 #include <Core/GameLib.h>
 #include "Include/Editor.h"
+#include <Render/ThirdParty/ImGui/imgui.h>
+#include <Render/RSRender.h>
+#include <Core/Engine.h>
+
+#include "Include/EdConsole.h"
+#include "Include/EdAssetExplorer.h"
+#include "Include/EdInstanceView.h"
+#include "Include/EdInstanceProperties.h"
+#include "Include/EdViewport.h"
+#include "Include/EditorStyle.h"
 
 namespace rs {
     using namespace Editor;

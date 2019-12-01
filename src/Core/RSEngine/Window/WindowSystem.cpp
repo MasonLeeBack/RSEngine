@@ -45,8 +45,8 @@ namespace rs {
     char* WindowName = "RSEngine";
 
     LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-        if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
-            return true;
+        //if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
+        //    return true;
 
         switch (msg) {
         case WM_KEYDOWN:

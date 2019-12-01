@@ -29,6 +29,9 @@ File name: EdInstanceProperties.h
 #ifndef _EdInstanceProperties_h_
 #define _EdInstanceProperties_h_
 
+#include "EditorComponent.h"
+#include <Core/Engine.h>
+
 namespace rs {
     namespace Editor {
         class InstanceProperties : public EditorComponent {

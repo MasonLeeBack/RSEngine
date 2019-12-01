@@ -29,6 +29,8 @@ File name: EdInstanceView.h
 #ifndef _EdInstanceView_h_
 #define _EdInstanceView_h_
 
+#include "EditorComponent.h"
+
 namespace rs {
     namespace Editor {
         class InstanceView : public EditorComponent {

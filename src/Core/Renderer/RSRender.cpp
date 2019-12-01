@@ -30,8 +30,12 @@ File name: RSRender.cpp
 
 #include <Classes/EngineClass.h>
 
-const float renderResX = 0.0f;
-const float renderResY = 0.0f;
+#ifdef _WIN32
+HWND renderHwnd;
+#endif
+
+float renderResX = 0.0f;
+float renderResY = 0.0f;
 
 namespace rs::Render {
 
@@ -40,26 +44,23 @@ namespace rs::Render {
     bool RSRender::Initialize() {
 #ifdef _WIN32
         g_CurrentRenderer = new RSVulkan;
-
-        return g_CurrentRenderer->Initialize();
 #endif
 #ifdef _ORBIS
         g_CurrentRenderer = new RSGNM;
-
-        return g_CurrentRenderer->Initialize();
 #endif
+		return g_CurrentRenderer->Initialize();
     }
 
     void RSRender::Update() {
         float color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-        g_CurrentRenderer->ClearRenderTarget(color);
-        g_CurrentRenderer->ClearDepthStencil();
+        //g_CurrentRenderer->ClearRenderTarget(color);
+        //g_CurrentRenderer->ClearDepthStencil();
 
         g_CurrentRenderer->Update();
 
         //eng->render();
         
-        g_CurrentRenderer->PresentSwapChain();
+        //g_CurrentRenderer->PresentSwapChain();
     }
 
     void RSRender::Shutdown() {

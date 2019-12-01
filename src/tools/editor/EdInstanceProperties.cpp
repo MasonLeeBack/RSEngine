@@ -7,7 +7,9 @@ File name: EdInstanceProperties.cpp
 
 */
 
-#include <RSEngine.h>
+#include "Include/EdInstanceProperties.h"
+#include <Render/ThirdParty/ImGui/imgui.h>
+#include <Render/RSRender.h>
 
 namespace rs {
     namespace Editor {
@@ -16,8 +18,8 @@ namespace rs {
 
         void InstanceProperties::Draw(bool* p_open) {
             if (ImGui::Begin("Properties", p_open, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse)) {
-                ImGui::SetWindowPos(ImVec2{ (float)g_resX - 300.0f, (float)g_resY /2 });
-                ImGui::SetWindowSize(ImVec2{ 300.0f, (float)g_resY / 2 });
+                ImGui::SetWindowPos(ImVec2{ (float)renderResX - 300.0f, (float)renderResY /2 });
+                ImGui::SetWindowSize(ImVec2{ 300.0f, (float)renderResY / 2 });
                 
                 if (currentInstance != nullptr) {
                     

@@ -29,6 +29,8 @@ File name: EdViewport.h
 #ifndef _EdViewport_h_
 #define _EdViewport_h_
 
+#include "EditorComponent.h"
+
 namespace rs {
     namespace Editor {
         class Viewport : public EditorComponent {
