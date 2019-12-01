@@ -13,3 +13,4 @@ imgui.ini
 RSEngine.exe
 
 /out/*
+/place/data/shaders

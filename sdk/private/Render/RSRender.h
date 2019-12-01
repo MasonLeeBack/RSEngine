@@ -50,8 +50,8 @@ File name: RSRender.h
 #include "RSRender_Texture.h"
 #include "RSRender_EditorView.h"
 
-extern RENDERAPI float renderResX;
-extern RENDERAPI float renderResY;
+extern RENDERAPI const float renderResX;
+extern RENDERAPI const float renderResY;
 
 namespace rs::Render {
 

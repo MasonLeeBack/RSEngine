@@ -26,12 +26,12 @@ File name: RSRender.cpp
 */
 
 #include <Render/RSRender.h>
-#include <Render/D3D11/RSD3D11.h>
+#include <Render/Vulkan/RSVulkan.h>
 
 #include <Classes/EngineClass.h>
 
-float renderResX = 0.0f;
-float renderResY = 0.0f;
+const float renderResX = 0.0f;
+const float renderResY = 0.0f;
 
 namespace rs::Render {
 
@@ -39,7 +39,7 @@ namespace rs::Render {
 
     bool RSRender::Initialize() {
 #ifdef _WIN32
-        g_CurrentRenderer = new RSD3D11;
+        g_CurrentRenderer = new RSVulkan;
 
         return g_CurrentRenderer->Initialize();
 #endif
