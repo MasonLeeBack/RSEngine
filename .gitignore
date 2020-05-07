@@ -1,10 +1,5 @@
 /.vs
-/x64/
-/RSEngine/x64
-/Debug/
-/RSEngine/Debug
-/Release/
-/RSEngine/Release
+/out/
 RSEngine.VC.VC.opendb
 RSEngine.VC.db
 *.aps

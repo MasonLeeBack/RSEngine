@@ -25,7 +25,10 @@ File name: PolyEngine.cpp
 
 */
 
-#include <RSEngine.h>
+#include <Window/WindowSystem.h>
+#include <Parser/RareParser.h>
+#include <Core/Engine.h>
+#include <Core/RSErrorHandling.h>
 
 using namespace rs;
 
@@ -34,12 +37,12 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     g_iCmdShow = iCmdShow;
     g_CommandLine = lpCmdLine;
     
-    // Initialization
-    INT xRes = GetPrivateProfileIntA("RSEngine", "ScreenResolution_X", 1280, "Engine.ini");
-    INT yRes = GetPrivateProfileIntA("RSEngine", "ScreenResolution_Y", 720, "Engine.ini");
-    
+    //Parse the XML file (if it exists)
+    RareParser parser;
+    parser.SetEngineAttributes();
+
     Window windowManager;
-    if (!windowManager.Init(xRes, yRes)) {
+    if (!windowManager.Init()) {
         RSThrowError(L"The window manager failed to create the window.\n");
     }
     

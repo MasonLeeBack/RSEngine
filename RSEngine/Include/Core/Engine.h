@@ -29,7 +29,11 @@ File name: Engine.h
 #ifndef _Game_h_
 #define _Game_h_
 
+#include <Classes/RSClasses.h>
+
 namespace rs {
+    extern bool g_RSCallExit;
+
     class RSEngine {
     public:
         bool Init();

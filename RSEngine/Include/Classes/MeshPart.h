@@ -28,6 +28,8 @@ File name: MeshPart.h
 #ifndef _MeshPart_h_
 #define _MeshPart_h_
 
+#include "BasePart.h"
+
 namespace rs {
     class MeshPart : public BasePart {
     public:

@@ -28,6 +28,8 @@ File name: Engine.h
 #ifndef _Engine_h_
 #define _Engine_h_
 
+#include "Instance.h"
+
 namespace rs {
     class Engine : public Instance {
     public:

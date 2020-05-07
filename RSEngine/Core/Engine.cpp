@@ -25,15 +25,27 @@ File name: Engine.cpp
 
 */
 
-#include "RSEngine.h"
+#include <future>
+#include <iostream>
+
+#include <Core/Engine.h>
+#include <Core/Filesystem.h>
+#include <Input/RareInput.h>
+#include <Renderer/RSRender.h>
+using namespace rs::Renderer;
+#include <UI/RSEngine_UI.h>
+using namespace rs::UI;
+#include <Core/Console.h>
+#include <Core/GameLib.h>
 
 namespace rs {
     RSEngine* g_Engine;
     bool g_GameActive = true;
+    bool g_RSCallExit = false;
 
     std::shared_ptr<Part> Character;
 
-    std::shared_ptr<Engine> LIBRARY_API eng;
+    std::shared_ptr<Engine> eng;
 
     bool RSEngine::Init() {
         // Engine instance is initialized here.
@@ -49,18 +61,21 @@ namespace rs {
             return false;
         }
 
-        g_Renderer = new Render;
-        if (!g_Renderer->Initialize()) {
+        g_RSRender = new RenderClass;
+        if (!g_RSRender->Initialize()) {
             return false;
         }
 
-        g_Editor = new CEditor;
-        if (!g_Editor->Initialize()) {
+        g_rareUI = new RareUI;
+        if (g_rareUI->Initialize()) {
+            g_Editor = new CEditor;
+            if (!g_Editor->Initialize()) {
 #ifdef _EDITOR
-            return false;
+                return false;
 #endif // _EDITOR
-            // We can live without the editor.
-            std::cout << "Editor failed to initialize." << std::endl;
+                // We can live without the editor.
+                std::cout << "Editor failed to initialize." << std::endl;
+            }
         }
 
         g_Console = new Console;
@@ -73,11 +88,7 @@ namespace rs {
         }
 
         g_GameLib = new GameLib;
-        if (!g_GameLib->Initialize()) {
-#ifndef _DEBUG
-            return false;
-#endif
-        }
+        //std::future<void> ff = std::async(std::launch::async, g_GameLib->Initialize);
 
         GameLoop();
 
@@ -92,6 +103,10 @@ namespace rs {
         ZeroMemory(&msg, sizeof(MSG));
 
         while (true) {
+            if (g_RSCallExit == true) {
+                // Do more shutdown stuff at a later time.
+                break;
+            }
             if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
                 if (msg.message == WM_QUIT) {
                     break;
@@ -103,7 +118,7 @@ namespace rs {
                 g_GameLib->Update();
                 eng->tick();
                 g_Input->Update();
-                g_Renderer->RenderScene();
+                g_RSRender->DrawScene();
             }
         }
 
@@ -114,8 +129,9 @@ namespace rs {
     void RSEngine::Shutdown() {
         g_Input->Shutdown();
         g_Filesystem->Shutdown();
-        g_Renderer->Shutdown();
+        g_RSRender->Shutdown();
         g_Editor->Shutdown();
+        g_rareUI->Shutdown();
         g_Console->Shutdown();
         g_GameLib->Shutdown();
 
@@ -123,8 +139,8 @@ namespace rs {
         g_Input = nullptr;
         delete g_Filesystem;
         g_Filesystem = nullptr;
-        delete g_Renderer;
-        g_Renderer = nullptr;
+        delete g_RSRender;
+        g_RSRender = nullptr;
         delete g_Editor;
         g_Editor = nullptr;
         delete g_Console;

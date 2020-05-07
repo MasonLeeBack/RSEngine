@@ -30,6 +30,14 @@ Notes: This class should not (and can not) be initialized from itself
 #ifndef _Instance_h_
 #define _Instance_h_
 
+#include <memory>
+#include <string>
+#include <vector>
+
+#include <d3d11.h>
+#include <Renderer/RSRender_Pipeline.h>
+using namespace rs::Renderer;
+
 #define INITIALIZE_INSTANCE_SOURCE(CName) \
     CName::CName() { \
         CName::ClassName = #CName; \
@@ -52,6 +60,8 @@ Notes: This class should not (and can not) be initialized from itself
     virtual std::string getClassName();
 
 namespace rs {
+
+
     class Instance : public std::enable_shared_from_this<Instance> {
     public:
         Instance();
@@ -75,7 +85,7 @@ namespace rs {
         virtual std::vector<std::shared_ptr<Instance>> GetChildren();
         virtual void ClearAllChildren(); /* Recursively removes all children */
 
-        RenderPipeline *pipeline = nullptr;
+        RSRenderPipeline *pipeline = nullptr;
         virtual void render();
         virtual void renderChildren();
 

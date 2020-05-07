@@ -29,10 +29,18 @@ File name: EdInstanceProperties.h
 #ifndef _EdInstanceProperties_h_
 #define _EdInstanceProperties_h_
 
+#include <Editor/EditorComponent.h>
+#include <Classes/RSClasses.h>
+
 namespace rs {
+
     namespace Editor {
+
+        extern std::shared_ptr<Instance> currentInstance;
+
         class InstanceProperties : public EditorComponent {
         public:
+            void Initialize();
             void Draw(bool* p_open);
 
             void SelectInstance(std::shared_ptr<Instance> instance);

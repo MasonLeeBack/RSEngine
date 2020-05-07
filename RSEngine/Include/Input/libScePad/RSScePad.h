@@ -12,6 +12,8 @@ File name: RSScePad.h
 #ifndef _RSScePad_h_
 #define _RSScePad_h_
 
+#include <Input/Gamepad.h>
+
 namespace rs {
     namespace Input {
         class RSScePad {

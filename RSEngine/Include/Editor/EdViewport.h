@@ -29,10 +29,13 @@ File name: EdViewport.h
 #ifndef _EdViewport_h_
 #define _EdViewport_h_
 
+#include <Editor/EditorComponent.h>
+
 namespace rs {
     namespace Editor {
         class Viewport : public EditorComponent {
         public:
+            bool Initialize();
             void Draw(bool* p_open);
         };
     }

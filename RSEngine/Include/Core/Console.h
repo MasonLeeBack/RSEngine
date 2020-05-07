@@ -29,12 +29,43 @@ File name: Console.h
 #ifndef _Console_h_
 #define _Console_h_
 
+#include <vector>
+
 namespace rs {
+    typedef enum {
+        cvar_type_undefined,
+        cvar_type_int,
+        cvar_type_float,
+        cvar_type_bool
+    }cvar_type;
+
+    typedef struct {
+        cvar_type cvarType;
+        void* convar;
+    }cvar;
+
+    typedef struct {
+
+
+    }rConsoleCommands;
+
+    typedef struct {
+        const char* cvarName;
+        cvar* conVar;
+    }rConsoleVars;
+
     class Console {
     public:
         bool Initialize();
         const char* ParseCommand(const char* command);
         void Shutdown();
+
+        bool addCommand(const char* name, void* consoleCommand);
+        bool addVar(const char* name, cvar* conVar);
+
+    private:
+        std::vector<rConsoleCommands*> console_commands;
+        std::vector<rConsoleVars*> console_vars;
     };
 
     extern Console* g_Console;

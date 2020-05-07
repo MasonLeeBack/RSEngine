@@ -29,10 +29,13 @@ File name: EdAssetExplorer.h
 #ifndef _EdAssetExplorer_h_
 #define _EdAssetExplorer_h_
 
+#include <Editor/EditorComponent.h>
+
 namespace rs {
     namespace Editor {
         class AssetExplorer : public EditorComponent {
         public:
+            void Initialize();
             void Draw(bool* p_open);
         };
     }

@@ -28,6 +28,8 @@ File name: Texture.h
 #ifndef _Texture_h_
 #define _Texture_h_
 
+#include "Instance.h"
+
 namespace rs {
     class Texture : public Instance {
     public:

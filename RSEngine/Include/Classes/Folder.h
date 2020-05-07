@@ -28,6 +28,8 @@ File name: Folder.h
 #ifndef _Folder_h_
 #define _Folder_h_
 
+#include "Instance.h"
+
 namespace rs {
     class Folder : public Instance {
     public:

@@ -25,7 +25,11 @@ File name: MeshPart.cpp
 
 */
 
-#include <RSEngine.h>
+#include <Classes/MeshPart.h>
+#include <Renderer/RSRender.h>
+using namespace rs::Renderer;
+#include <Renderer/RSGeometryGenerator.h>
+#include <Renderer/LoadModel_OBJ.h>
 
 namespace rs {
     INITIALIZE_INSTANCE_SOURCE(MeshPart);
@@ -33,7 +37,7 @@ namespace rs {
     void MeshPart::render() {
 
         if (pipeline == nullptr) {
-            pipeline = new RenderPipeline;
+            pipeline = new RSRenderPipeline;
             MeshData partMesh;
 
             if (MeshFile == "") {
@@ -41,76 +45,80 @@ namespace rs {
                 partMesh = gen.GenerateCube();
             }
             else {
-                GeometryGenerator gen;
-                partMesh = gen.GenerateSphere(0.5f, 25, 25);
+                ObjLoader loader;
+                loader.LoadModel(&partMesh, MeshFile.c_str());
             }
 
+            RSBufferDesc vertDesc;
+            vertDesc.mType = RSBufferType::VERTEX_BUFFER;
+            vertDesc.mElementCount = partMesh.vertexMap.size();
+            vertDesc.mStride = sizeof(vertex);
 
-            D3D11_BUFFER_DESC vertexBufferDesc;
-            ZeroMemory(&vertexBufferDesc, sizeof(D3D11_BUFFER_DESC));
-            vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-            vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-            vertexBufferDesc.ByteWidth = sizeof(vertex) * partMesh.vertexMap.size();
-            vertexBufferDesc.CPUAccessFlags = 0;
+            pipeline->VertexBuffer = new RSRender_Buffer(vertDesc);
+            pipeline->VertexBuffer->Initialize(&(partMesh.vertexMap.front()));
 
-            D3D11_SUBRESOURCE_DATA resourceDataVertex;
-            ZeroMemory(&resourceDataVertex, sizeof(D3D11_SUBRESOURCE_DATA));
-            resourceDataVertex.pSysMem = &(partMesh.vertexMap.front());
+            RSBufferDesc indexDesc;
+            indexDesc.mType = RSBufferType::INDEX_BUFFER;
+            indexDesc.mElementCount = partMesh.vertexIndices.size();
+            indexDesc.mStride = sizeof(unsigned int);
 
-            pdx_Device->CreateBuffer(&vertexBufferDesc, &resourceDataVertex, &pipeline->VertexBuffer);
+            pipeline->IndexBuffer = new RSRender_Buffer(indexDesc);
+            pipeline->IndexBuffer->Initialize(&(partMesh.vertexIndices.front()));
 
-            D3D11_BUFFER_DESC indexBufferDesc;
-            ZeroMemory(&indexBufferDesc, sizeof(D3D11_BUFFER_DESC));
-            indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-            indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-            indexBufferDesc.ByteWidth = sizeof(unsigned int) * partMesh.vertexIndices.size() * 3;
-            indexBufferDesc.CPUAccessFlags = 0;
+            D3D11_INPUT_ELEMENT_DESC inputElement[] = {
+                {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+                {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+                { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0}
+            };
 
-            D3D11_SUBRESOURCE_DATA irinitData;
-            irinitData.pSysMem = &(partMesh.vertexIndices.front());;
-            pdx_Device->CreateBuffer(&indexBufferDesc, &irinitData, &pipeline->IndexBuffer);
+            pipeline->VertexShader = new RSRender_Shader(RSShaderType::RS_VERTEX_SHADER, inputElement, _ARRAYSIZE(inputElement));
+            pipeline->VertexShader->InitializeShaderFromFile("data/shaders/shader_common_vs.hlsl");
 
-            g_Renderer->LoadShader(ST_VertexShader, pipeline, "data/shaders/rshader_commonobj.shader");
-            g_Renderer->LoadShader(ST_PixelShader, pipeline, "data/shaders/rshader_commonobj.shader");
+            pipeline->PixelShader = new RSRender_Shader(RSShaderType::RS_PIXEL_SHADER, nullptr, 0);
+            pipeline->PixelShader->InitializeShaderFromFile("data/shaders/shader_common_ps.hlsl");
 
             pipeline->VertexCount = partMesh.vertexMap.size();
             pipeline->IndexCount = partMesh.vertexIndices.size();
         }
 
-        pipeline->ViewMatrix = DirectX::XMMatrixScaling(Size.X, Size.Y, Size.Z);
-        pipeline->ViewMatrix *= DirectX::XMMatrixTranslation(Position.X, Position.Y, Position.Z);
+        DirectX::XMMATRIX worldMatrix;
+        worldMatrix = DirectX::XMMatrixScaling(Size.X, Size.Y, Size.Z);
+        worldMatrix *= DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(Rotation.X));
+        worldMatrix *= DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(Rotation.Y));
+        worldMatrix *= DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(Rotation.Z));
+        worldMatrix *= DirectX::XMMatrixTranslation(Position.X, Position.Y, Position.Z);
 
-        if (pipeline->VertexShader)
-            pdx_DeviceContext->VSSetShader(pipeline->VertexShader, 0, 0);
-        if (pipeline->PixelShader)
-            pdx_DeviceContext->PSSetShader(pipeline->PixelShader, 0, 0);
+        g_RSRender->AssignShader(pipeline->VertexShader);
+        g_RSRender->AssignShader(pipeline->PixelShader);
         // HS, TS, etc.
 
-        // fix
-        constantBuffer.WVP = pipeline->ViewMatrix * g_cameraMatrix.viewMatrix * g_cameraMatrix.projMatrix;
-        constantBuffer.WVP = XMMatrixTranspose(constantBuffer.WVP);
-        pdx_DeviceContext->UpdateSubresource(pdx_ConstantBuffer, 0, NULL, &constantBuffer, 0, 0);
-        pdx_DeviceContext->VSSetConstantBuffers(0, 1, &pdx_ConstantBuffer);
+        constantBuffer.mWorld = worldMatrix;
+        constantBuffer.mView = g_cameraMatrix.mView;
+        constantBuffer.mProjection = g_cameraMatrix.mProjection;
 
-        if (pipeline->InputLayout)
-            pdx_DeviceContext->IASetInputLayout(pipeline->InputLayout);
+        constantBuffer.mWorld = DirectX::XMMatrixTranspose(constantBuffer.mWorld);
+        constantBuffer.mView = DirectX::XMMatrixTranspose(constantBuffer.mView);
+        constantBuffer.mProjection = DirectX::XMMatrixTranspose(constantBuffer.mProjection);
+
+        g_RSRender->l_DeviceContext->UpdateSubresource(pdx_ConstantBuffer, 0, NULL, &constantBuffer, 0, 0);
+        g_RSRender->l_DeviceContext->VSSetConstantBuffers(0, 1, &pdx_ConstantBuffer);
 
         if (pipeline->Texture.DrawTexture == true) {
-            pdx_DeviceContext->PSSetSamplers(0, 1, &pipeline->Texture.SamplerState);
-            pdx_DeviceContext->PSSetShaderResources(0, 1, &pipeline->Texture.Texture);
+            g_RSRender->l_DeviceContext->PSSetSamplers(0, 1, &pipeline->Texture.SamplerState);
+            g_RSRender->l_DeviceContext->PSSetShaderResources(0, 1, &pipeline->Texture.Texture);
         }
         else {
             ID3D11ShaderResourceView* nullSRV = { nullptr };
-            pdx_DeviceContext->PSSetShaderResources(0, 1, &nullSRV);
+            g_RSRender->l_DeviceContext->PSSetShaderResources(0, 1, &nullSRV);
         }
 
-        pdx_DeviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        g_RSRender->l_DeviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         UINT stride = sizeof(vertex);
         UINT offset = 0;
-        pdx_DeviceContext->IASetVertexBuffers(0, 1, &pipeline->VertexBuffer, &stride, &offset);
+        g_RSRender->l_DeviceContext->IASetVertexBuffers(0, 1, &pipeline->VertexBuffer->mpGPUData, &stride, &offset);
 
-        pdx_DeviceContext->IASetIndexBuffer(pipeline->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-        pdx_DeviceContext->DrawIndexed(pipeline->IndexCount, 0, 0);
+        g_RSRender->l_DeviceContext->IASetIndexBuffer(pipeline->IndexBuffer->mpGPUData, DXGI_FORMAT_R32_UINT, 0);
+        g_RSRender->l_DeviceContext->DrawIndexed(pipeline->IndexCount, 0, 0);
 
         renderChildren();
     }

@@ -27,7 +27,7 @@ Notes: Right now, we only explicitly support ScePad until further notice.
 
 */
 
-#include <RSEngine.h>
+#include <Input/RareInput.h>
 
 // Rewrite XInput library
 #include <Input/libScePad/RSScePad.h>

@@ -58,6 +58,12 @@ namespace rs {
         GPD_BTN_UNIQUE
     };
 
+    struct JoystickInput {
+        float X;
+        float Y;
+    };
+
+
 } // namespace rs
 
 #endif // _Gamepad_h_

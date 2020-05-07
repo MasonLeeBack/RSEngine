@@ -32,10 +32,6 @@ File name: RareInput.h
 #include "Gamepad.h"
 
 namespace rs {
-    struct JoystickInput {
-        float X;
-        float Y;
-    };
 
     class CInput {
     public:

@@ -29,6 +29,9 @@ File name: RSClasses.h
 #ifndef _RSClasses_h_
 #define _RSClasses_h_
 
+#include <Types/Vector3.h>
+#include <Types/Vector2.h>
+
 #include "Instance.h"
 #include "EngineClass.h"
 #include "Camera.h"
@@ -37,12 +40,13 @@ File name: RSClasses.h
 #include "MeshPart.h"
 #include "Folder.h"
 #include "Texture.h"
+#include "SceneLighting.h"
 
 namespace rs {
 
 #define NewInstance(name, type) std::shared_ptr<type> name = type::newInstance(eng);
 
-extern std::shared_ptr<Engine> LIBRARY_API eng;
+extern std::shared_ptr<Engine> eng;
 
 } // namespace rs
 

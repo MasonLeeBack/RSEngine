@@ -29,6 +29,8 @@ File name: Filesystem.h
 #ifndef _Filesystem_h_
 #define _Filesystem_h_
 
+#include <fstream>
+
 namespace rs {
     class Filesystem {
     public:

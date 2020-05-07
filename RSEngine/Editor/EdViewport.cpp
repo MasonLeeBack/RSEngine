@@ -7,11 +7,22 @@ File name: EdViewport.cpp
 
 */
 
-#include <RSEngine.h>
-
+#include <Editor/EdViewport.h>
+#include <Renderer/RSRender.h>
+using namespace rs::Renderer;
 
 namespace rs {
     namespace Editor {
+        RSRenderTarget* editorRT;
+
+        bool Viewport::Initialize() {
+            editorRT = new RSRenderTarget(Vector2(800, 800));
+
+            g_RSRender->EnableEditorRenderTarget(true, editorRT);
+
+            return true;
+        }
+
         void Viewport::Draw(bool* p_open) {
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
             ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
@@ -25,8 +36,11 @@ namespace rs {
                 ImVec2 WindowSize = ImGui::GetWindowSize();
                 WindowSize.y = WindowSize.y - 26.0f;
 
-                g_Renderer->UpdateViewportSize(WindowSize.x, WindowSize.y);
-                ImGui::Image(g_Renderer->GetRenderedTexture(), WindowSize, ImVec2(0, 0), ImVec2(1, 1));
+                editorRT->Resize(Vector2(WindowSize.x, WindowSize.y));
+                ImGui::Image(editorRT->getSRV(), WindowSize, ImVec2(0, 0), ImVec2(1, 1));
+
+                //g_Renderer->UpdateViewportSize(WindowSize.x, WindowSize.y);
+                //ImGui::Image(g_Renderer->GetRenderedTexture(), WindowSize, ImVec2(0, 0), ImVec2(1, 1));
 
             }
             ImGui::End();

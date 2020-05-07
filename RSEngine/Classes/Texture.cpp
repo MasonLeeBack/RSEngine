@@ -25,7 +25,9 @@ File name: Texture.cpp
 
 */
 
-#include <RSEngine.h>
+#include <Classes/Texture.h>
+#include <Renderer/RSRender.h>
+#include <Renderer/stb_image.h>
 
 namespace rs {
     INITIALIZE_INSTANCE_SOURCE(Texture);
@@ -59,7 +61,7 @@ namespace rs {
             l_textureDesc.SampleDesc.Count = 1;
             l_textureDesc.Usage = D3D11_USAGE_DEFAULT;
             l_textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-            hr = pdx_Device->CreateTexture2D(&l_textureDesc, &mData, &tex->TextureSource);
+            hr = g_RSRender->l_Device->CreateTexture2D(&l_textureDesc, &mData, &tex->TextureSource);
             if (FAILED(hr))
                 return;
 
@@ -69,7 +71,7 @@ namespace rs {
             l_srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
             l_srvDesc.Texture2D.MostDetailedMip = 0;
             l_srvDesc.Texture2D.MipLevels = 1;
-            hr = pdx_Device->CreateShaderResourceView(tex->TextureSource, &l_srvDesc, &tex->Texture);
+            hr = g_RSRender->l_Device->CreateShaderResourceView(tex->TextureSource, &l_srvDesc, &tex->Texture);
             if (FAILED(hr))
                 return;
 
@@ -88,7 +90,7 @@ namespace rs {
             samplerDesc.BorderColor[3] = 0;
             samplerDesc.MinLOD = 0;
             samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-            hr = pdx_Device->CreateSamplerState(&samplerDesc, &tex->SamplerState);
+            hr = g_RSRender->l_Device->CreateSamplerState(&samplerDesc, &tex->SamplerState);
             if (FAILED(hr))
                 return;
 

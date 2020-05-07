@@ -29,8 +29,9 @@ File name: Config.h
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
+#include <string>
+
 namespace rs {
-    extern char* g_CommandLine;
 
     class PolyConfig {
     public:

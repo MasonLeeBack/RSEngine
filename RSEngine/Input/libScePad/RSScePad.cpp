@@ -25,8 +25,6 @@ File name: RSScePad.cpp
 
 */
 
-#include <RSEngine.h>
-
 #include <Input/libScePad/RSScePad.h>
 
 #if USE_LIBSCEPAD == 1

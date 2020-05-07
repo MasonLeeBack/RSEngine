@@ -25,7 +25,11 @@ File name: WindowSystem.cpp
 
 */
 
-#include <RSEngine.h>
+#include <iostream>
+
+#include <Window/WindowSystem.h>
+#include <Renderer/RSRender.h>
+using namespace rs::Renderer;
 
 extern LRESULT  ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -35,14 +39,18 @@ namespace rs {
     HWND g_hWnd = NULL;
     int g_iCmdShow = NULL;
     LPCWSTR Win32_WindowName = TEXT("RSEngine");
+    LPCSTR g_CommandLine = "";
 
-    int g_resX = 0;
-    int g_resY = 0;
+    int g_resX = 800;
+    int g_resY = 600;
     char* WindowName = "RSEngine";
 
     LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
             return true;
+
+        static bool s_in_sizemove = false;
+        static bool s_minimized = false;
 
         switch (msg) {
         case WM_KEYDOWN:
@@ -55,15 +63,57 @@ namespace rs {
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
+        case WM_SIZE:
+            if (wParam == SIZE_MINIMIZED)
+            {
+                // The window was minimized (you should probably suspend the application)
+                if (!s_minimized)
+                {
+                    s_minimized = true;
+                }
+            }
+            else if (s_minimized)
+            {
+                // The window was minimized and is now restored (resume from suspend)
+                s_minimized = false;
+            }
+            else if (!s_in_sizemove)
+            {
+
+            }
+            break;
+
+        case WM_ENTERSIZEMOVE:
+            // We want to avoid trying to resizing the swapchain as the user does the 'rubber band' resize
+            s_in_sizemove = true;
+            break;
+
+        case WM_EXITSIZEMOVE:
+            s_in_sizemove = false;
+            // Here is the other place where you handle the swapchain resize after the user stops using the 'rubber-band' 
+            tagRECT rect;
+            if (GetWindowRect(hwnd, &rect))
+            {
+                int width = rect.right - rect.left;
+                int height = rect.bottom - rect.top;
+
+                g_RSRender->UpdateSwapChainResolution(Vector2(width, height));
+            }
+            break;
+
+        case WM_GETMINMAXINFO:
+        {
+            // We want to prevent the window from being set too tiny
+            auto info = reinterpret_cast<MINMAXINFO*>(lParam);
+            info->ptMinTrackSize.x = 800;
+            info->ptMinTrackSize.y = 600;
+        }
+        break;
         }
         return DefWindowProc(hwnd, msg, wParam, lParam);
     }
 
-    bool Window::Init(int w, int h) {
-        // Set the resolution in a global
-        g_resX = w;
-        g_resY = h;
-
+    bool Window::Init() {
         WNDCLASSEX wc;
 
         wc.cbSize = sizeof(WNDCLASSEX);
@@ -85,16 +135,24 @@ namespace rs {
             return false;
         }
 
+        RECT rect;
+        rect.left = rect.top = 0;
+        rect.right = g_resX;
+        rect.bottom = g_resY;
+        ::AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+
         g_hWnd = CreateWindowEx(NULL,
             Win32_WindowName,
             Win32_WindowName, // For now...
             WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, CW_USEDEFAULT,
-            w, h,
+            rect.right - rect.left, rect.bottom - rect.top,
             NULL,
             NULL,
             g_hInstance,
             NULL);
+
+
 
         if (!g_hWnd) {
             // Window handler failed to initialize.

@@ -29,10 +29,13 @@ File name: WindowSystem.h
 #ifndef _WindowSystem_h_
 #define _WindowSystem_h_
 
+#include <Windows.h>
+
 namespace rs {
     extern HINSTANCE g_hInstance;
     extern HWND g_hWnd;
     extern int g_iCmdShow;
+    extern LPCSTR g_CommandLine;
 
     extern int g_resX;
     extern int g_resY;
@@ -41,7 +44,7 @@ namespace rs {
 
     class Window {
     public:
-        bool Init(int w, int h);
+        bool Init();
     };
 
 } // namespace rs

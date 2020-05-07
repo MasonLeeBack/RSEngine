@@ -7,14 +7,23 @@ File name: EdInstanceView.cpp
 
 */
 
-#include <RSEngine.h>
+#include <Editor/EdInstanceProperties.h>
+#include <Editor/EdInstanceView.h>
+
+#include <Renderer/RSRender.h>
 
 namespace rs {
     namespace Editor {
         void IterateInstances(std::shared_ptr<Instance> ins) {
             for (auto kid : ins->GetChildren()) {
                 if (ImGui::TreeNode((kid->GetName() + " (" + kid->ClassName + ")").c_str())) {
-                    IterateInstances(kid);
+                    if (ImGui::Button("Edit instance")) {
+                        currentInstance = kid;
+                    }
+                    if (ImGui::TreeNode("Children")) {
+                        IterateInstances(kid);
+                        ImGui::TreePop();
+                    }
                     ImGui::TreePop();
                 }
             }

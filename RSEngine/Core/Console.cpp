@@ -25,7 +25,7 @@ File name: Console.cpp
 
 */
 
-#include <RSEngine.h>
+#include <Core/Console.h>
 
 namespace rs {
     Console* g_Console;
@@ -41,6 +41,23 @@ namespace rs {
     
     void Console::Shutdown() {
     
+    }
+
+    bool Console::addVar(const char* name, cvar* conVar)
+    {
+        rConsoleVars* place_var = new rConsoleVars;
+        for (auto v : console_vars) {
+            if (name == v->cvarName) {
+                return false;
+            }
+        }
+
+        place_var->cvarName = name;
+        place_var->conVar = conVar;
+
+        console_vars.push_back(place_var);
+
+        return true;
     }
     
 } // namespace rs

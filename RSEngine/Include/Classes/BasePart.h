@@ -28,6 +28,8 @@ File name: BasePart.h
 #ifndef _BasePart_h_
 #define _BasePart_h_
 
+#include "Instance.h"
+
 namespace rs {
     class BasePart : public Instance {
     public:
@@ -36,6 +38,8 @@ namespace rs {
         Vector3 Position = { 0.0f, 0.0f, 0.0f };
         Vector3 Size = { 0.0f, 0.0f, 0.0f };
         Vector3 Rotation = { 0.0f, 0.0f, 0.0f };
+
+        bool PhysicsEnabled;
 
         float Opacity = 0.0f;
 

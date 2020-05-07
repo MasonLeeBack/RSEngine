@@ -31,6 +31,7 @@ Warning: Never include types explicitly to other files!
 #define _RareTypes_h_
 
 #include "RareRes.h"
+#include "ConVar.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "InputType.h"

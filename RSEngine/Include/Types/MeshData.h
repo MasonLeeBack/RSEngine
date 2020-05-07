@@ -29,6 +29,8 @@ File name: MeshData.h
 #ifndef _MeshData_h_
 #define _MeshData_h_
 
+#include <vector>
+
 namespace rs {
 
     struct vertexPos {
@@ -48,24 +50,6 @@ namespace rs {
         }
     };
 
-    struct vertexCol {
-        union {
-            struct {
-                float r;
-                float g;
-                float b;
-                float a;
-            };
-            float c[4];
-        };
-
-        static vertexCol set(float r, float g, float b, float a) { vertexCol temp; temp.r = r; temp.g = g; temp.b = b; temp.a = a; return temp; }
-
-        bool operator==(const vertexCol& other) const {
-            return r == other.r && g == other.g && b == other.b && a == other.a;
-        }
-    };
-
     struct vertexUV {
         union {
             struct {
@@ -82,13 +66,30 @@ namespace rs {
         }
     };
 
+    struct vertexNorm {
+        union {
+            struct {
+                float x;
+                float y;
+                float z;
+            };
+            float v[3];
+        };
+
+        static vertexNorm set(float x, float y, float z) { vertexNorm temp; temp.x = x; temp.y = y; temp.z = z; return temp; }
+
+        bool operator==(const vertexNorm& other) const {
+            return x == other.x && y == other.y && z == other.z;
+        }
+    };
+
     struct vertex {
-        vertexPos pos;
-        vertexCol color;
+        vertexPos position;
         vertexUV texCoord;
+        vertexNorm normal;
 
         bool operator==(const vertex& other) const {
-            return pos == other.pos && color == other.color && texCoord == other.texCoord;
+            return position == other.position && normal == other.normal && texCoord == other.texCoord;
         }
     };
 

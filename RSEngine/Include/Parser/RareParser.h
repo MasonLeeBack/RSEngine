@@ -31,7 +31,10 @@ File name: RareParser.h
 
 namespace rs {
     class RareParser {
-
+    public:
+        void SetEngineAttributes();
+        void CreateEngineAttributes();
+        void WriteEngineAttributes();
     };
 
 } // namespace rs

@@ -25,11 +25,9 @@ File name: Config.cpp
 
 */
 
-#include <RSEngine.h>
+#include <Core/Config.h>
 
 namespace rs {
-    char* g_CommandLine = "";
-
     int PolyConfig::ReadCommandLineInt(char key) {
         int result = 0;
 
@@ -38,7 +36,7 @@ namespace rs {
 
     std::string PolyConfig::ReadCommandLineString(char key) {
         std::string result = "";
-
+        
         return result;
     }
 

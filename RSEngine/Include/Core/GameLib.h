@@ -31,11 +31,10 @@ File name: GameLib.h
 namespace rs {
     class GameLib {
     public:
-        bool Initialize();
+        void Initialize();
         void Update();
         void Shutdown();
     private:
-        HINSTANCE gameDLL;
     };
 
     extern GameLib* g_GameLib;

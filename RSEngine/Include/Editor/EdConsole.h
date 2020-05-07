@@ -29,10 +29,26 @@ File name: EdConsole.h
 #ifndef _EdConsole_h_
 #define _EdConsole_h_
 
+#include <Editor/EditorComponent.h>
+#include <Classes/RSClasses.h>
+
 namespace rs {
     namespace Editor {
         class EConsole : public EditorComponent {
+            char                  InputBuf[256];
+            ImVector<char*>       Items;
+            ImVector<const char*> Commands;
+            ImVector<char*>       History;
+            int                   HistoryPos;    // -1: new line, 0..History.Size-1 browsing history.
+            ImGuiTextFilter       Filter;
+            bool                  AutoScroll;
+            bool                  ScrollToBottom;
         public:
+            bool Initialize();
+            int TextEditCallback(ImGuiInputTextCallbackData* data);
+            void ExecCommand(const char* command_line);
+            void AddLog(const char* fmt, ...) IM_FMTARGS(2);
+            void ClearLog();
             void Draw(bool* p_open);
         };
     }

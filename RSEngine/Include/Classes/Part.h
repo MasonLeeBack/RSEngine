@@ -28,6 +28,8 @@ File name: Part.h
 #ifndef _Part_h_
 #define _Part_h_
 
+#include "BasePart.h"
+
 namespace rs {
     class Part : public BasePart {
     public:

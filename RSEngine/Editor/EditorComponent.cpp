@@ -7,7 +7,7 @@ File name: EditorComponent.h
 
 */
 
-#include <RSEngine.h>
+#include <Editor/EditorComponent.h>
 
 namespace rs {
     namespace Editor {

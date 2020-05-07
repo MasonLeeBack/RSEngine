@@ -28,6 +28,8 @@ File name: Camera.h
 #ifndef _Camera_h_
 #define _Camera_h_
 
+#include "Instance.h"
+
 namespace rs {
     class Camera : public Instance {
     public:
@@ -35,12 +37,15 @@ namespace rs {
 
         std::shared_ptr<Instance> CameraSubject = nullptr;
 
-        Vector3 CameraPosition;
-        Vector3 CameraRotation; // This is rewritten by the engine if CameraSubject is not nullptr!
+        Vector3 EyePos;
+        Vector3 LookAtPos;
+        Vector3 UpVector; // This is rewritten by the engine if CameraSubject is not nullptr!
 
         float FieldOfView = 90.0f;
 
         Vector2 ViewportSize; // Automatically written by the engine
+
+        void render() override;
     };
 
 } // namespace rs

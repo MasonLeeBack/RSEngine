@@ -29,13 +29,7 @@ File name: Editor.h
 #ifndef _Editor_h_
 #define _Editor_h_
 
-#include "EditorComponent.h"
-#include "EdViewport.h"
-#include "EdInstanceView.h"
-#include "EdInstanceProperties.h"
-#include "EdConsole.h"
-#include "EdAssetExplorer.h"
-#include "EdUtilities.h"
+
 
 namespace rs {
     class CEditor {

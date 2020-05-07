@@ -29,6 +29,9 @@ File name: EditorComponent.h
 #ifndef _EditorComponent_h_
 #define _EditorComponent_h_
 
+#include <ThirdParty/ImGui/imgui.h>
+#include <ThirdParty/ImGui/imgui_stdlib.h>
+
 namespace rs {
     namespace Editor {
         class EditorComponent {

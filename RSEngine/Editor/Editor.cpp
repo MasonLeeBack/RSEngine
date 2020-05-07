@@ -7,8 +7,18 @@ File name: Editor.cpp
 
 */
 
-#include <RSEngine.h>
+#include <Core/Engine.h>
+#include <Editor/Editor.h>
 #include <Editor/EditorStyle.h>
+
+#include <Editor\EdClassHelper.h>
+#include <Editor\EditorComponent.h>
+#include <Editor\EdViewport.h>
+#include <Editor\EdInstanceView.h>
+#include <Editor\EdInstanceProperties.h>
+#include <Editor\EdConsole.h>
+#include <Editor\EdAssetExplorer.h>
+#include <Editor\EdUtilities.h>
 
 namespace rs {
 	using namespace Editor;
@@ -26,12 +36,24 @@ namespace rs {
 		SetEditorStyle();
 
 		ImGuiIO& io = ImGui::GetIO();
+		io.IniFilename = NULL;
 		fonts.push_back(io.Fonts->AddFontFromFileTTF("data/fonts/SourceSansPro-Regular.ttf", 16.0f));
+
+		ec.Initialize();
+		vp.Initialize();
+		//ae.Initialize(); 
+
+		ClassHelper_Initialize();
+
+		NewInstance(editorCamera, Camera);
+		editorCamera->EyePos = Vector3(-3, 0, 0);
+
+		
 
         //
         // Reroute rendering output to editor viewport
         //
-        g_Renderer->RenderToEditor();
+        //g_Renderer->RenderToEditor();
 		
 		return true;
 	}
@@ -40,10 +62,28 @@ namespace rs {
 		ImGui::SetNextWindowSize(ImVec2{ 200.0f, 200.0f });
 		if (ImGui::Begin("New Instance...", p_open, ImGuiWindowFlags_NoResize)) {
 
-			if (ImGui::Button("OK", ImVec2(100, 0))) { p_open = false; }
+			const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO", "PPPP", "QQQQQQQQQQ", "RRR", "SSSS" };
+			static const char* current_item = NULL;
+
+			if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
+			{
+				for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+				{
+					bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
+					if (ImGui::Selectable(items[n], is_selected))
+						current_item = items[n];
+						if (is_selected)
+							ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+				}
+				ImGui::EndCombo();
+			}
+
+			if (ImGui::Button("OK", ImVec2(89, 0))) {
+				p_open = false;
+			}
 			ImGui::SetItemDefaultFocus();
 			ImGui::SameLine();
-			if (ImGui::Button("Cancel", ImVec2(100, 0))) { p_open = false; }
+			if (ImGui::Button("Cancel", ImVec2(89, 0))) { p_open = false; }
 		}
 		ImGui::End();
 		return true;
@@ -68,8 +108,15 @@ namespace rs {
 
 		ImGui::BeginMainMenuBar();
 		if (ImGui::BeginMenu("File")) {
-			if (ImGui::MenuItem("New", "CTRL+N", nullptr, false)) {
+			if (ImGui::MenuItem("New", "CTRL+N", nullptr, true)) {
+				for (auto kid : eng->GetChildren()) {
+					kid->Remove();
+				}
 
+				NewInstance(Base, Part);
+				Base->Size = Vector3(256, 1, 256);
+				Base->Position = Vector3(0, -1, 0);
+				Base->Name = "Baseplate";
 			}
 			if (ImGui::MenuItem("Open...", "CTRL+O", nullptr, false)) {
 
@@ -82,7 +129,7 @@ namespace rs {
 			}
 			ImGui::Separator();
 			if (ImGui::MenuItem("Exit")) {
-
+				g_RSCallExit = true;
 			}
 			ImGui::EndMenu();
 		}
@@ -95,6 +142,9 @@ namespace rs {
             ImGui::MenuItem("Engine Instances", "", &show_instance_list, true);
             ImGui::MenuItem("Instance Properties", "", &show_instance_properties, true);
             ImGui::MenuItem("Level Viewport", "", &show_viewport, true);
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Plugins")) {
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Level")) {
@@ -118,7 +168,7 @@ namespace rs {
 
 	bool CEditor::Shutdown() {
 
-        g_Renderer->RenderToWindow();
+        //g_Renderer->RenderToWindow();
 
 		return true;
 	}
