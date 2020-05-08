@@ -37,6 +37,8 @@ using namespace rs::Renderer;
 using namespace rs::UI;
 #include <Core/Console.h>
 #include <Core/GameLib.h>
+#include <Physics/RSPhysics.h>
+using namespace rs::Physics;
 
 namespace rs {
     RSEngine* g_Engine;
@@ -63,6 +65,11 @@ namespace rs {
 
         g_RSRender = new RenderClass;
         if (!g_RSRender->Initialize()) {
+            return false;
+        }
+
+        g_RSPhysics = new PhysicsSystem;
+        if (!g_RSPhysics->Initialize()) {
             return false;
         }
 
@@ -123,6 +130,7 @@ namespace rs {
             }
             else {
                 g_GameLib->Update();
+                g_RSPhysics->Update();
                 eng->tick();
                 g_Input->Update();
                 g_RSRender->DrawScene();
@@ -137,6 +145,7 @@ namespace rs {
         g_Input->Shutdown();
         g_Filesystem->Shutdown();
         g_RSRender->Shutdown();
+        g_RSPhysics->Shutdown();
         g_Editor->Shutdown();
         g_rareUI->Shutdown();
         g_Console->Shutdown();
@@ -148,6 +157,8 @@ namespace rs {
         g_Filesystem = nullptr;
         delete g_RSRender;
         g_RSRender = nullptr;
+        delete g_RSPhysics;
+        g_RSPhysics = nullptr;
         delete g_Editor;
         g_Editor = nullptr;
         delete g_Console;

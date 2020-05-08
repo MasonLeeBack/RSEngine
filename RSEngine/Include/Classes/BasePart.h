@@ -40,10 +40,21 @@ namespace rs {
         Vector3 Rotation = { 0.0f, 0.0f, 0.0f };
 
         bool PhysicsEnabled;
+        Vector3 Velocity = { 0.0f, 0.0f, 0.0f };
+        int physicsID = 0;
 
         float Opacity = 0.0f;
 
-        Vector3 Velocity = { 0.0f, 0.0f, 0.0f };
+        virtual void tick() override;
+
+        // Recommend using these in order to update the physics system
+        // at the same time.
+        virtual void setPhysicsEnabled(bool);
+
+        virtual void setSize(Vector3);
+        virtual void setPosition(Vector3);
+        virtual void setRotation(Vector3);
+        virtual void setVelocity(Vector3);
     };
 
 } // namespace rs

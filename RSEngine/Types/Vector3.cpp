@@ -48,6 +48,14 @@ namespace rs {
         return *this;
     }
 
+    bool Vector3::operator!=(const Vector3& rhs)
+    {
+        if (rhs.X != this->X || rhs.Y != this->Y || rhs.Z != this->Z) {
+            return true;
+        }
+        return false;
+    }
+
     
     
 } // namespace rs

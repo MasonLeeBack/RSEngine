@@ -73,14 +73,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(SolutionDir)thirdparty\assimp\lib;C:\Program Files (x86)\SCE\host_tools\lib;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x64\release;$(SolutionDir)thirdparty\vulkan\Lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)thirdparty\assimp\inc;C:\Program Files (x86)\SCE\host_tools\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;$(SolutionDir)$(ProjectName)\Include;$(SolutionDir)thirdparty\vulkan\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\bullet\lib;$(SolutionDir)thirdparty\assimp\lib;C:\Program Files (x86)\SCE\host_tools\lib;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x64\release;$(SolutionDir)thirdparty\vulkan\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)thirdparty\bullet\src;$(SolutionDir)thirdparty\assimp\inc;C:\Program Files (x86)\SCE\host_tools\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;$(SolutionDir)$(ProjectName)\Include;$(SolutionDir)thirdparty\vulkan\Include;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)out\exec\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)out\intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(SolutionDir)thirdparty\assimp\lib;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x64\release;$(SolutionDir)thirdparty\vulkan\Lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)thirdparty\assimp\inc;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;$(SolutionDir)$(ProjectName)\Include;$(SolutionDir)thirdparty\vulkan\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\bullet\lib;$(SolutionDir)thirdparty\assimp\lib;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x64\release;$(SolutionDir)thirdparty\vulkan\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)thirdparty\bullet\src;$(SolutionDir)thirdparty\assimp\inc;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;$(SolutionDir)$(ProjectName)\Include;$(SolutionDir)thirdparty\vulkan\Include;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)out\exec\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)out\intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -112,7 +112,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DXGI.lib;D3DCompiler.lib;d3d11.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;assimp-vc142-mt.lib;DXGI.lib;D3DCompiler.lib;d3d11.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,11 +139,12 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_USE_FBX_SDK_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DXGI.lib;D3DCompiler.lib;d3d11.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;assimp-vc142-mt.lib;DXGI.lib;D3DCompiler.lib;d3d11.lib;XINPUT9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

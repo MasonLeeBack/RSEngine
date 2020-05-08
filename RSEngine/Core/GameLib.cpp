@@ -27,19 +27,40 @@ File name: GameLib.cpp
 
 #include <Core/GameLib.h>
 #include <Classes/RSClasses.h>
+#include <Physics/RSPhysics.h>
+using namespace rs::Physics;
 
 namespace rs {
     GameLib* g_GameLib;
     std::shared_ptr<MeshPart> myPart;
     void GameLib::Initialize() {
 
+        NewInstance(BasePlate, Part);
+        BasePlate->PhysicsEnabled = false;
+        BasePlate->Size = Vector3(10, 1, 10);
+        BasePlate->Position = Vector3(0, -3, 0);
+
+        g_RSPhysics->addRigidBody(BasePlate);
+
         NewInstance(Base, Part);
         Base->Size = Vector3(1, 1, 1);
         Base->Position = Vector3(0, 0, 0);
+        Base->PhysicsEnabled = true;
+        Base->Name = "yo";
 
         NewInstance(Texturx, Texture);
         Texturx->SetParent(Base);
         Texturx->File = "data/textures/cute_guinea_pig.png";
+
+        g_RSPhysics->addRigidBody(Base);
+
+        NewInstance(BP2, Part);
+        BP2->Name = "yo2";
+        BP2->PhysicsEnabled = true;
+        BP2->Size = Vector3(8, 1, 8);
+        BP2->Position = Vector3(0, 3, 4);
+
+        g_RSPhysics->addRigidBody(BP2);
 
         NewInstance(Brick, MeshPart);
         Brick->Size = Vector3(1024, 1024, 1024);

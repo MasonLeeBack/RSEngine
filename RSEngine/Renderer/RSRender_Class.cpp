@@ -201,8 +201,8 @@ namespace rs::Renderer {
 
 		l_DeviceContext->OMSetRenderTargets(1, &prevRTV, prevDSV);
 
-		//DestroyDefferedRenderingBuffer();
-		//InitDefferedRenderingBuffer();
+		DestroyDefferedRenderingBuffer();
+		InitDefferedRenderingBuffer();
 
 		renderResolution = resolution;
 	}
@@ -388,7 +388,9 @@ namespace rs::Renderer {
 
 		eng->render();
 
-		//hBindLastPass();
+		//BindLastPass();
+
+		//combine
 
 		if (RenderToEditor)
 			SetDefaultRenderTarget();

@@ -174,27 +174,27 @@ namespace rs {
 		{
 			if (renderTargetView) {
 				renderTargetView->Release();
-				delete renderTargetView;
+				//delete renderTargetView;
 				renderTargetView = NULL;
 			}
 			if (shaderResourceView) {
 				shaderResourceView->Release();
-				delete shaderResourceView;
+				//delete shaderResourceView;
 				shaderResourceView = NULL;
 			}
 			if (viewportTexture) {
 				viewportTexture->Release();
-				delete viewportTexture;
+				//delete viewportTexture;
 				viewportTexture = NULL;
 			}
 			if (depthStencilBuffer) {
 				depthStencilBuffer->Release();
-				delete depthStencilBuffer;
+				//delete depthStencilBuffer;
 				depthStencilBuffer = NULL;
 			}
 			if (depthStencilView) {
 				depthStencilView->Release();
-				delete depthStencilView;
+				//delete depthStencilView;
 				depthStencilView = NULL;
 			}
 		}
