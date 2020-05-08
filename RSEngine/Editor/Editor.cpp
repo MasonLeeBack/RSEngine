@@ -48,8 +48,6 @@ namespace rs {
 		NewInstance(editorCamera, Camera);
 		editorCamera->EyePos = Vector3(-3, 0, 0);
 
-		
-
         //
         // Reroute rendering output to editor viewport
         //
@@ -109,14 +107,19 @@ namespace rs {
 		ImGui::BeginMainMenuBar();
 		if (ImGui::BeginMenu("File")) {
 			if (ImGui::MenuItem("New", "CTRL+N", nullptr, true)) {
-				for (auto kid : eng->GetChildren()) {
-					kid->Remove();
-				}
+				std::shared_ptr<LevelRoot> newLevel = LevelRoot::newInstance(eng);
+				newLevel->LevelName = "New Level (" + std::to_string(levels.size()) + ")";
+				levels.push_back(newLevel);
 
-				NewInstance(Base, Part);
+				std::shared_ptr<Camera> thisCam = Camera::newInstance(newLevel);
+				thisCam->EyePos = Vector3(-3, 0, 0);
+
+				std::shared_ptr<Part> Base = Part::newInstance(newLevel);
 				Base->Size = Vector3(256, 1, 256);
 				Base->Position = Vector3(0, -1, 0);
 				Base->Name = "Baseplate";
+
+				currentLevelRoot = newLevel;
 			}
 			if (ImGui::MenuItem("Open...", "CTRL+O", nullptr, false)) {
 

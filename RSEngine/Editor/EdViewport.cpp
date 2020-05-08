@@ -10,6 +10,7 @@ File name: EdViewport.cpp
 #include <Editor/EdViewport.h>
 #include <Renderer/RSRender.h>
 using namespace rs::Renderer;
+#include <Classes/RSClasses.h>
 
 namespace rs {
     namespace Editor {
@@ -26,15 +27,26 @@ namespace rs {
         void Viewport::Draw(bool* p_open) {
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
             ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
-            if (ImGui::Begin("Level (TestLevel)", p_open, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse)) {
+            if (ImGui::Begin("Viewport", p_open, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar)) {
                 ImGui::SetWindowPos(ImVec2{ 300.0f, 26.0f });
                 ImGui::SetWindowSize(ImVec2{ (float)g_resX - 600.0f, (float)g_resY - 226.0f });
+
+                
+                for (auto kid : levels) {
+                    ImGui::SameLine();
+                    if (ImGui::Button(kid->LevelName.c_str())) {
+                        currentLevelRoot = kid;
+
+                        if (currentLevelRoot != kid)
+                            assert(currentLevelRoot != kid);
+                    }
+                }
 
                 //
                 // Set the viewport resolution to the window size
                 //
                 ImVec2 WindowSize = ImGui::GetWindowSize();
-                WindowSize.y = WindowSize.y - 26.0f;
+                WindowSize.y = WindowSize.y - 34.0f;
 
                 editorRT->Resize(Vector2(WindowSize.x, WindowSize.y));
                 ImGui::Image(editorRT->getSRV(), WindowSize, ImVec2(0, 0), ImVec2(1, 1));

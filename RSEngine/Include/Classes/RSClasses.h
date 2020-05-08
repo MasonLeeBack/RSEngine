@@ -33,6 +33,7 @@ File name: RSClasses.h
 #include <Types/Vector2.h>
 
 #include "Instance.h"
+#include "LevelRoot.h"
 #include "EngineClass.h"
 #include "Camera.h"
 #include "BasePart.h"
@@ -44,7 +45,10 @@ File name: RSClasses.h
 
 namespace rs {
 
-#define NewInstance(name, type) std::shared_ptr<type> name = type::newInstance(eng);
+    extern std::shared_ptr<LevelRoot> currentLevelRoot;
+    extern std::vector<std::shared_ptr<LevelRoot>> levels;
+
+#define NewInstance(name, type) std::shared_ptr<type> name = type::newInstance(currentLevelRoot);
 
 extern std::shared_ptr<Engine> eng;
 

@@ -14,11 +14,7 @@ File name: RSRender_New.cpp
 namespace rs::Renderer {
 
 	////LEGACY LEGACY LEGACY////
-	ID3D11Buffer* pdx_ConstantBuffer;
 	ID3D11Buffer* pdx_PixelConst;
-
-	objCB                       constantBuffer;
-	extendedCB                  g_cameraMatrix;
 
 	Light mylight;
 	psCB cbPerFrame;
@@ -43,23 +39,23 @@ namespace rs::Renderer {
 			return false;
 		CreateViewport();
 
+		// Here we create the camera constant buffer (registered to b0 on shaders)
+		RSBufferDesc cameraConstDesc;
+		cameraConstDesc.mType = RSBufferType::CONST_BUFFER;
+		cameraConstDesc.mElementCount = 1;
+		cameraConstDesc.mStride = sizeof(cameraConst);
+
+		cameraConstBuf = new RSRender_Buffer(cameraConstDesc);
+		cameraConstBuf->Initialize(&cb_Camera);
+
+		// Assign b0
+
+
+		// Other constant buffers, needs moved
+		//// LEGACY LEGACY LEGACY////
 		HRESULT hr;
 
 		D3D11_BUFFER_DESC cbbd;
-		ZeroMemory(&cbbd, sizeof(D3D11_BUFFER_DESC));
-
-		cbbd.Usage = D3D11_USAGE_DEFAULT;
-		cbbd.ByteWidth = sizeof(objCB);
-		cbbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		cbbd.CPUAccessFlags = 0;
-		cbbd.MiscFlags = 0;
-
-		hr = l_Device->CreateBuffer(&cbbd, NULL, &pdx_ConstantBuffer);
-		if (FAILED(hr)) {
-			RSThrowError(L"Failed to create constant buffer.");
-			return false;
-		}
-
 		ZeroMemory(&cbbd, sizeof(D3D11_BUFFER_DESC));
 
 		cbbd.Usage = D3D11_USAGE_DEFAULT;
@@ -69,10 +65,9 @@ namespace rs::Renderer {
 		cbbd.MiscFlags = 0;
 
 		hr = l_Device->CreateBuffer(&cbbd, NULL, &pdx_PixelConst);
+		//// LEGACY LEGACY LEGACY ////
 
 		InitScreenQuad();
-
-		//
 
 		return true;
 	}

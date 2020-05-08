@@ -43,7 +43,7 @@ namespace rs {
     bool g_GameActive = true;
     bool g_RSCallExit = false;
 
-    std::shared_ptr<Part> Character;
+    extern std::shared_ptr<LevelRoot> currentLevelRoot;
 
     std::shared_ptr<Engine> eng;
 
@@ -87,8 +87,15 @@ namespace rs {
             std::cout << "Console failed to initialize." << std::endl;
         }
 
-        g_GameLib = new GameLib;
+        //g_GameLib = new GameLib;
         //std::future<void> ff = std::async(std::launch::async, g_GameLib->Initialize);
+
+        std::shared_ptr<LevelRoot> defaultLevel = LevelRoot::newInstance(eng);
+        defaultLevel->LevelName = "New Level";
+        currentLevelRoot = defaultLevel;
+        NewInstance(gCamera, Camera);
+        gCamera->EyePos = Vector3(-3, 0, 0);
+        levels.push_back(defaultLevel);
 
         GameLoop();
 

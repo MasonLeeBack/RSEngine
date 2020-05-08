@@ -47,15 +47,10 @@ namespace rs::Renderer {
 		RSRasterID rasterState;
 	};
 
-    struct objCB {
-        DirectX::XMMATRIX mWorld;
-        DirectX::XMMATRIX mView;
-        DirectX::XMMATRIX mProjection;
-    };
-
-    struct extendedCB {
-        DirectX::XMMATRIX mView;
-        DirectX::XMMATRIX mProjection;
+    // Used internally for RSRender_Camera, can have DirectX types
+    struct cameraConst {
+        DirectX::XMMATRIX view;
+        DirectX::XMMATRIX projection;
     };
 
     struct Light

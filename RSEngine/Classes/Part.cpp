@@ -56,6 +56,14 @@ namespace rs {
             pipeline->IndexBuffer = new RSRender_Buffer(vertDesc);
             pipeline->IndexBuffer->Initialize(&(partMesh.vertexIndices.front()));
 
+            RSBufferDesc constDesc;
+            constDesc.mType = RSBufferType::CONST_BUFFER;
+            constDesc.mElementCount = 1;
+            constDesc.mStride = sizeof(regB1);
+
+            pipeline->ObjectConstant = new RSRender_Buffer(constDesc);
+            pipeline->ObjectConstant->Initialize(&pipeline->bufferTest);
+
             D3D11_INPUT_ELEMENT_DESC inputElement[] = {
                 {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
                 {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -83,16 +91,10 @@ namespace rs {
         g_RSRender->AssignShader(pipeline->PixelShader);
         // HS, TS, etc.
 
-        constantBuffer.mWorld = worldMatrix;
-        constantBuffer.mView = g_cameraMatrix.mView;
-        constantBuffer.mProjection = g_cameraMatrix.mProjection;
+        pipeline->bufferTest.world = DirectX::XMMatrixTranspose(worldMatrix);
 
-        constantBuffer.mWorld = DirectX::XMMatrixTranspose(constantBuffer.mWorld);
-        constantBuffer.mView = DirectX::XMMatrixTranspose(constantBuffer.mView);
-        constantBuffer.mProjection = DirectX::XMMatrixTranspose(constantBuffer.mProjection);
-
-        g_RSRender->l_DeviceContext->UpdateSubresource(pdx_ConstantBuffer, 0, NULL, &constantBuffer, 0, 0);
-        g_RSRender->l_DeviceContext->VSSetConstantBuffers(0, 1, &pdx_ConstantBuffer);
+        g_RSRender->l_DeviceContext->UpdateSubresource(pipeline->ObjectConstant->mpGPUData, 0, NULL, &pipeline->bufferTest, 0, 0);
+        g_RSRender->l_DeviceContext->VSSetConstantBuffers(1, 1, &pipeline->ObjectConstant->mpGPUData);
 
         if (pipeline->Texture.DrawTexture == true) {
             g_RSRender->l_DeviceContext->PSSetSamplers(0, 1, &pipeline->Texture.SamplerState);

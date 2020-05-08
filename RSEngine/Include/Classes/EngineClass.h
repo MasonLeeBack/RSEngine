@@ -31,9 +31,12 @@ File name: Engine.h
 #include "Instance.h"
 
 namespace rs {
+
     class Engine : public Instance {
     public:
         INITIALIZE_INSTANCE_HEADER(Engine);
+
+        virtual void render() override;
 
     };
 

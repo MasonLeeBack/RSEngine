@@ -29,8 +29,6 @@ File name: Editor.h
 #ifndef _Editor_h_
 #define _Editor_h_
 
-
-
 namespace rs {
     class CEditor {
     public:

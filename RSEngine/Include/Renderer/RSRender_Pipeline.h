@@ -17,6 +17,10 @@ File name: RSRender_Pipeline.h
 namespace rs::Renderer {
 
 	typedef struct {
+		DirectX::XMMATRIX world;
+	} regB1;
+
+	typedef struct {
 		// Vertex shader contains the input layout, which is then set
 		// by the renderer.
 		RSRender_Shader* VertexShader;
@@ -25,7 +29,9 @@ namespace rs::Renderer {
 		RSRender_Buffer* VertexBuffer;
 		RSRender_Buffer* IndexBuffer;
 
-		objCB               constantBuffer;
+		RSRender_Buffer* ObjectConstant;
+
+		regB1				bufferTest;
 
 		RSTexture           Texture;
 

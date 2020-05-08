@@ -34,6 +34,7 @@ File name: RSRender.h
 #include "RSRender_Structs.h"
 #include "RSRender_Target.h"
 #include "RSRender_Buffer.h"
+#include "RSRender_Camera.h"
 #include "RSRender_Shader.h"
 #include "RSRender_Pipeline.h"
 
@@ -66,6 +67,9 @@ namespace rs::Renderer {
 
 		void AssignShader(RSRender_Shader*);
 
+		void UpdateCamera(RSRender_Camera);
+		virtual RSRender_Buffer* getCameraBuffer() { return cameraConstBuf; };
+
 		// DirectX 11 specific
 		ID3D11Device* l_Device;
 		ID3D11DeviceContext* l_DeviceContext;
@@ -87,6 +91,9 @@ namespace rs::Renderer {
 		void BindFirstPass();
 		void BindLastPass();
 
+		RSRender_Buffer* cameraConstBuf;
+		cameraConst cb_Camera;
+
 		// Private DX11
 		IDXGISwapChain* l_SwapChain;
 
@@ -106,10 +113,6 @@ namespace rs::Renderer {
 	};
 
 	////LEGACY LEGACY LEGACY////
-	extern ID3D11Buffer* pdx_ConstantBuffer;
-	extern objCB constantBuffer;
-	extern extendedCB g_cameraMatrix;
-
 	extern Vector2 renderResolution;
 	extern bool g_Fullscreen;
 

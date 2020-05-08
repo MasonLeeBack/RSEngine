@@ -150,6 +150,7 @@
     <ClCompile Include="Audio\AudioHost.cpp" />
     <ClCompile Include="Classes\BasePart.cpp" />
     <ClCompile Include="Classes\Camera.cpp" />
+    <ClCompile Include="Classes\LevelRoot.cpp" />
     <ClCompile Include="Classes\MeshPart.cpp" />
     <ClCompile Include="Classes\Part.cpp" />
     <ClCompile Include="Classes\SceneLighting.cpp" />
@@ -206,6 +207,7 @@
   <ItemGroup>
     <ClInclude Include="Include\Classes\BasePart.h" />
     <ClInclude Include="Include\Classes\Camera.h" />
+    <ClInclude Include="Include\Classes\LevelRoot.h" />
     <ClInclude Include="Include\Classes\SceneLighting.h" />
     <ClInclude Include="Include\Classes\MeshPart.h" />
     <ClInclude Include="Include\Classes\Part.h" />
@@ -240,6 +242,7 @@
     <ClInclude Include="Include\Physics\RSPhysics.h" />
     <ClInclude Include="Include\Renderer\RSRender.h" />
     <ClInclude Include="Include\Renderer\RSRender_Buffer.h" />
+    <ClInclude Include="Include\Renderer\RSRender_Camera.h" />
     <ClInclude Include="Include\Renderer\RSRender_Enums.h" />
     <ClInclude Include="Include\Renderer\RSRender_Pipeline.h" />
     <ClInclude Include="Include\Renderer\RSRender_Shader.h" />

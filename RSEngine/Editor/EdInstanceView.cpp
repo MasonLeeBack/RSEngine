@@ -33,7 +33,7 @@ namespace rs {
             if (ImGui::Begin("Instances", p_open, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse)) {
                 ImGui::SetWindowPos(ImVec2{ (float)g_resX - 300.0f, 26.0f });
                 ImGui::SetWindowSize(ImVec2{ 300.0f, ((float)g_resY / 2) - 26.0f });
-                IterateInstances(eng);
+                IterateInstances(currentLevelRoot);
             }
             ImGui::End();
         }
