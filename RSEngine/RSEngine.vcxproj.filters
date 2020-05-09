@@ -272,6 +272,9 @@
     <ClCompile Include="Classes\LevelRoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Classes\Instance.h">
@@ -473,6 +476,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Renderer\RSRender_Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Classes\Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

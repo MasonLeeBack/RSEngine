@@ -155,6 +155,7 @@
     <ClCompile Include="Classes\MeshPart.cpp" />
     <ClCompile Include="Classes\Part.cpp" />
     <ClCompile Include="Classes\SceneLighting.cpp" />
+    <ClCompile Include="Classes\Skybox.cpp" />
     <ClCompile Include="Classes\Texture.cpp" />
     <ClCompile Include="Core\Console.cpp" />
     <ClCompile Include="Classes\EngineClass.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Include\Classes\SceneLighting.h" />
     <ClInclude Include="Include\Classes\MeshPart.h" />
     <ClInclude Include="Include\Classes\Part.h" />
+    <ClInclude Include="Include\Classes\Skybox.h" />
     <ClInclude Include="Include\Classes\Texture.h" />
     <ClInclude Include="Include\Core\Console.h" />
     <ClInclude Include="Include\Classes\EngineClass.h" />
