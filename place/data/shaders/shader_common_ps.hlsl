@@ -20,6 +20,12 @@ cbuffer cbPerFrame
     Light light;
 };
 
+cbuffer cbPerObject
+{
+    bool isTextured;
+    bool padding[15];
+}
+
 Texture2D tex;
 SamplerState samp;
 
@@ -27,7 +33,11 @@ float4 PS(VS_OUTPUT input) : SV_TARGET
 {
     input.normal = normalize(input.normal);
     
-    float4 diffuse = tex.Sample(samp, input.TexCoord);
+    float4 diffuse = float4(.2,.2,.2,1);
+    
+    if (isTextured) {
+        diffuse = tex.Sample(samp, input.TexCoord);
+    }
     
     float3 finalColor;
 
