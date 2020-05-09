@@ -18,7 +18,12 @@ namespace rs::Renderer {
 
 	typedef struct {
 		DirectX::XMMATRIX world;
-	} regB1;
+	} vsConst_PerObject;
+
+	typedef struct {
+		bool isTextured;
+		bool padding[15];
+	} psConst_PerObject;
 
 	typedef struct {
 		// Vertex shader contains the input layout, which is then set
@@ -30,8 +35,10 @@ namespace rs::Renderer {
 		RSRender_Buffer* IndexBuffer;
 
 		RSRender_Buffer* ObjectConstant;
+		RSRender_Buffer* pixelConst;
 
-		regB1				bufferTest;
+		vsConst_PerObject	objectVSConst;
+		psConst_PerObject   objectPSConst;
 
 		RSTexture           Texture;
 
