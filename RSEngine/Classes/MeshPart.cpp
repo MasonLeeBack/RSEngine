@@ -65,13 +65,23 @@ namespace rs {
             pipeline->IndexBuffer = new RSRender_Buffer(indexDesc);
             pipeline->IndexBuffer->Initialize(&(partMesh.vertexIndices.front()));
 
-            RSBufferDesc constDesc;
-            constDesc.mType = RSBufferType::CONST_BUFFER;
-            constDesc.mElementCount = 1;
-            constDesc.mStride = sizeof(regB1);
+            RSBufferDesc vsConstDesc;
+            vsConstDesc.mType = RSBufferType::CONST_BUFFER;
+            vsConstDesc.mElementCount = 1;
+            vsConstDesc.mStride = sizeof(vsConst_PerObject);
 
-            pipeline->ObjectConstant = new RSRender_Buffer(constDesc);
-            pipeline->ObjectConstant->Initialize(&pipeline->bufferTest);
+            pipeline->ObjectConstant = new RSRender_Buffer(vsConstDesc);
+            pipeline->ObjectConstant->Initialize(&pipeline->objectVSConst);
+
+            RSBufferDesc psConstDesc;
+            psConstDesc.mType = RSBufferType::CONST_BUFFER;
+            psConstDesc.mElementCount = 1;
+            psConstDesc.mStride = sizeof(psConst_PerObject);
+
+            pipeline->pixelConst = new RSRender_Buffer(psConstDesc);
+            pipeline->pixelConst->Initialize(&pipeline->objectPSConst);
+
+            ZeroMemory(&pipeline->objectPSConst, sizeof(psConst_PerObject));
 
             D3D11_INPUT_ELEMENT_DESC inputElement[] = {
                 {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -100,10 +110,14 @@ namespace rs {
         g_RSRender->AssignShader(pipeline->PixelShader);
         // HS, TS, etc.
 
-        pipeline->bufferTest.world = DirectX::XMMatrixTranspose(worldMatrix);
+        pipeline->objectVSConst.world = DirectX::XMMatrixTranspose(worldMatrix);
+        pipeline->objectPSConst.isTextured = pipeline->Texture.DrawTexture;
 
-        g_RSRender->l_DeviceContext->UpdateSubresource(pipeline->ObjectConstant->mpGPUData, 0, NULL, &pipeline->bufferTest, 0, 0);
+        g_RSRender->l_DeviceContext->UpdateSubresource(pipeline->ObjectConstant->mpGPUData, 0, NULL, &pipeline->objectVSConst, 0, 0);
         g_RSRender->l_DeviceContext->VSSetConstantBuffers(1, 1, &pipeline->ObjectConstant->mpGPUData);
+
+        g_RSRender->l_DeviceContext->UpdateSubresource(pipeline->pixelConst->mpGPUData, 0, NULL, &pipeline->objectPSConst, 0, 0);
+        g_RSRender->l_DeviceContext->PSSetConstantBuffers(1, 1, &pipeline->pixelConst->mpGPUData);
 
         if (pipeline->Texture.DrawTexture == true) {
             g_RSRender->l_DeviceContext->PSSetSamplers(0, 1, &pipeline->Texture.SamplerState);
