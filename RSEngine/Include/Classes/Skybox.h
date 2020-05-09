@@ -1,6 +1,6 @@
 /*
 
-RSEngine
+ArkEngine
 Copyright (c) 2019 Mason Lee Back
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,38 +21,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-File name: RSClasses.h
+File name: Skybox.h
 
 */
 
-#pragma once
-#ifndef _RSClasses_h_
-#define _RSClasses_h_
+#ifndef _Skybox_h_
+#define _Skybox_h_
 
-#include <Types/Vector3.h>
-#include <Types/Vector2.h>
-
-#include "Instance.h"
-#include "LevelRoot.h"
-#include "EngineClass.h"
-#include "Camera.h"
 #include "BasePart.h"
-#include "Part.h"
-#include "MeshPart.h"
-#include "Skybox.h"
-#include "Folder.h"
-#include "Texture.h"
-#include "SceneLighting.h"
 
 namespace rs {
+    class Skybox : public BasePart {
+    public:
+        INITIALIZE_INSTANCE_HEADER(Skybox);
 
-    extern std::shared_ptr<LevelRoot> currentLevelRoot;
-    extern std::vector<std::shared_ptr<LevelRoot>> levels;
-
-#define NewInstance(name, type) std::shared_ptr<type> name = type::newInstance(currentLevelRoot);
-
-extern std::shared_ptr<Engine> eng;
+        void render() override;
+    };
 
 } // namespace rs
 
-#endif // _RSClasses_h_
+#endif // _Skybox_h_
