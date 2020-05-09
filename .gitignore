@@ -6,3 +6,4 @@ RSEngine.VC.db
 *.rsfx
 imgui.ini
 RSEngine.exe
+place/RSEngine.xml
