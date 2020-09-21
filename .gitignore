@@ -1,9 +1,8 @@
 /.vs
-/out/
+/BUILD/
+/GAME_OUTPUT/
 RSEngine.VC.VC.opendb
 RSEngine.VC.db
 *.aps
 *.rsfx
-imgui.ini
 RSEngine.exe
-place/RSEngine.xml

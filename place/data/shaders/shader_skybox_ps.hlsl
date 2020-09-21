@@ -1,8 +1,8 @@
 struct VS_OUTPUT
 {
     float4 Pos : SV_POSITION;
-	float2 TexCoord : TEXCOORD;
     float3 normal : NORMAL;
+	float2 TexCoord : TEXCOORD;
 };
 
 Texture2D tex;

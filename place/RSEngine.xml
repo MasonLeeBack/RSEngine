@@ -1,0 +1,7 @@
+<RSEngine>
+    <Graphics>
+        <ResolutionWidth>2560</ResolutionWidth>
+        <ResolutionHeight>1440</ResolutionHeight>
+        <FullScreen>false</FullScreen>
+    </Graphics>
+</RSEngine>

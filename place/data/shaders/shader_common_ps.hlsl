@@ -1,8 +1,8 @@
 struct VS_OUTPUT
 {
     float4 Pos : SV_POSITION;
-	float2 TexCoord : TEXCOORD;
     float3 normal : NORMAL;
+	float2 TexCoord : TEXCOORD;
 };
 
 struct Light
@@ -20,7 +20,7 @@ cbuffer cbPerFrame
     Light light;
 };
 
-cbuffer cbPerObject
+cbuffer cbPerObject : register(b0)
 {
     bool isTextured;
     bool padding[15];
@@ -33,7 +33,7 @@ float4 PS(VS_OUTPUT input) : SV_TARGET
 {
     input.normal = normalize(input.normal);
     
-    float4 diffuse = float4(.2,.2,.2,1);
+    float4 diffuse = float4(1,1,1,1);
     
     if (isTextured) {
         diffuse = tex.Sample(samp, input.TexCoord);
